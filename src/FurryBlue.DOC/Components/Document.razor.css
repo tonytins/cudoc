@@ -2,6 +2,11 @@
     width: 200px;
 }
 
+    .doc_container a {
+        color: #ceffff;
+        text-decoration: none;
+    }
+
 .doc_folder {
     background-image: url("../images/doc_folder.png");
     height: 145px;

@@ -1,0 +1,30 @@
+﻿@page "/view/{Path}/{Picture}"
+@using System.Globalization;
+<h2>@Name</h2>
+<div align="center">
+    <img src="/images/@Path/@Picture" />
+</div>
+
+@code {
+
+    [Parameter] public string Picture { get; set; } = string.Empty;
+    [Parameter] public string? Path { get; set; } = "gallery";
+    string Name { get; set; } = string.Empty;
+
+    protected override Task OnParametersSetAsync()
+    {
+        var oldName = Picture;
+        var culture = new CultureInfo("en-US", false);
+        var txtInfo = culture.TextInfo;
+
+
+        Name = txtInfo.ToTitleCase(oldName.Replace('_', ' ')
+            .Replace(".png", string.Empty)
+            .Replace(".jpg", string.Empty)
+            .ToString());
+
+
+        return base.OnParametersSetAsync();
+    }
+}
+

@@ -1,13 +1,15 @@
 ﻿<div class="doc_container">
-    <div class="doc_row">
-        <div class="doc_column doc_folder"><img height="130" src="../images/thumbnails/@Thumbnail"></div>
-    </div>
-    <div class="doc_row"><p align="center">@Name</p></div>
+    <a href="@Page">
+        <div class="doc_row">
+            <div class="doc_column doc_folder"><img height="130" src="../images/thumbnails/@Thumbnail"></div>
+        </div>
+        <div class="doc_row"><p align="center">@Name</p></div>
+    </a>
 </div>
 
 @code {
-    [Parameter] public string Thumbnail { get; set; } = "";
+    [Parameter] public string Thumbnail { get; set; } = string.Empty;
     [Parameter] public string Name { get; set; } = "Example";
-
+    [Parameter] public string Page { get; set; } = string.Empty;
 }
 

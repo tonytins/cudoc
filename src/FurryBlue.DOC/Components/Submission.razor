@@ -1,10 +1,6 @@
-﻿@page "/submission/{ImageSrc}"
-<h2>@ImageSrc</h2>
-<div align="center">
-    <img src="/images/gallery/@ImageSrc" />
-</div>
+﻿<a href="/view/@Path/@Picture"><img src="/images/@Path/@Picture" width="150" /></a>
 
 @code {
-    [Parameter] public string? ImageSrc { get; set; }
+    [Parameter] public string? Picture { get; set; }
+    [Parameter] public string? Path { get; set; } = "gallery";
 }
-

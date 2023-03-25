@@ -1,5 +1,6 @@
-﻿<a href="/submission/@ImageSrc"><img src="/images/gallery/@ImageSrc" width="100px" /></a>
+﻿<img src="/images/@Path/@Picture" width="150" />
 
 @code {
-    [Parameter] public string? ImageSrc { get; set; }
+    [Parameter] public string? Picture { get; set; }
+    [Parameter] public string? Path { get; set; } = "gallery";
 }

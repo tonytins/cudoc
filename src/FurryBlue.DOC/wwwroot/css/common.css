@@ -25,6 +25,10 @@ body {
     margin-bottom: 15vh;
 }
 
+    .container img {
+        margin: 5px;
+    }
+
 footer {
     margin-top: 5vh;
     position: absolute;

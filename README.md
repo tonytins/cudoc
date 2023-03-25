@@ -1,6 +1,6 @@
-# Furry Blue D.O.C. 2.0
+# Casey Universe DOC
 
-A way more advanced version of the original [Furry Blue D.O.C.](https://github.com/tonytins/fbdoc) based on .NET 7+ and Blazor WebAssembly.
+A way more advanced version of the original [D.O.C.](https://github.com/tonytins/fbdoc) website, based on .NET 7+ and Blazor WebAssembly.
 
 ## Background
 
