@@ -9,7 +9,7 @@ The initial version of DOC was based on Microsoft Frontpage 2003 and later Dream
 ## To-do
 
 - [ ] Migrate from tables to DIVs
-- [ ] 
+- [ ] Target .NET 8
 
 ## License
 
