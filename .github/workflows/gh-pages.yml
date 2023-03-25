@@ -3,7 +3,7 @@ on:
   push:
     branches: ["main"]
 jobs:
-  build:
+  deploy:
     timeout-minutes: 15
     continue-on-error: true
     runs-on: ubuntu-latest
@@ -14,9 +14,9 @@ jobs:
         with:
           dotnet-version: "7.0.x"
       - name: Install dependencies
-        run: dotnet restore
+        run: dotnet restore src
       - name: Publish with dotnet
-        run: dotnet publish -c Release --output build --no-restore
+        run: dotnet publish src/FurryBlue.DOC -c Release --output build --no-restore
       - name: Deploy to Github Pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
