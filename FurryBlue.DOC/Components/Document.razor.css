@@ -1,0 +1,22 @@
+﻿.doc_container {
+    width: 200px;
+}
+
+.doc_folder {
+    background-image: url("../images/doc_folder.png");
+    height: 145px;
+}
+
+.doc_row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: auto;
+}
+
+.doc_column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+}

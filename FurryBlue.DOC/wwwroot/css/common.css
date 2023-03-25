@@ -14,12 +14,13 @@ body {
 
 .page {
     margin: auto;
-    width: 900px;
+    width: 1024px;
     padding: 10px;
     position: relative;
 }
 
-.content {
+.container {
+    min-height: 100vh;
     margin-top: 1vh;
     margin-bottom: 15vh;
 }
@@ -28,10 +29,6 @@ footer {
     margin-top: 5vh;
     position: absolute;
     bottom: 0;
-}
-
-.welcome {
-    margin-bottom: 5vh;
 }
 
 .row {
@@ -81,7 +78,7 @@ a:active {
 }
 
 .welcome {
-    height: 137;
+    height: 137px;
     padding: 5px;
 }
 
@@ -125,8 +122,8 @@ a:active {
 
         /* Change the color of links on hover */
         .topnav a:hover {
-            background-color: #ddd;
-            color: black;
+            background-color: #BE0004;
+            color: #f2f2f2;
         }
 
         /* Add a color to the active/current link */

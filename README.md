@@ -1,6 +1,15 @@
 # Furry Blue D.O.C. 2.0
 
-A way more advanced version of the original [Furry Blue D.O.C.](https://github.com/tonytins/fbdoc) based on .NET 7+ and Blazor WebAssembly that fixes a lot of problems caused by maintaining a bunch of HTML pages.
+A way more advanced version of the original [Furry Blue D.O.C.](https://github.com/tonytins/fbdoc) based on .NET 7+ and Blazor WebAssembly.
+
+## Background
+
+The initial version of DOC was based on Microsoft Frontpage 2003 and later Dreamweaver 8 before being abandoned due to the difficulty of maintaining each individual page. It was recently rediscovered again in old cloud backups containing some art previously considered lost, where it was restored and given a modern codebase. Finally, DOC was moved to Blazor WebAssembly for better maintenance after the opportunity to use an empty template became available.
+
+## To-do
+
+- [ ] Migrate from tables to DIVs
+- [ ] 
 
 ## License
 
