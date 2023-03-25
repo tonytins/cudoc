@@ -1,6 +1,7 @@
-﻿<h3>Component1</h3>
+﻿@page "/submission/{ImageSrc}"
+<img src="/images/gallery/@ImageSrc" />
 
 @code {
-
+    [Parameter] public string? ImageSrc { get; set; }
 }
 
