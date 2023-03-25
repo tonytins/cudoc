@@ -1,5 +1,7 @@
 ﻿@page "/submission/{ImageSrc}"
-<img src="/images/gallery/@ImageSrc" />
+<div align="center">
+    <img src="/images/gallery/@ImageSrc" />
+</div>
 
 @code {
     [Parameter] public string? ImageSrc { get; set; }
