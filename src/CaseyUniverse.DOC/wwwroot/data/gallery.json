@@ -1,0 +1,76 @@
+﻿{
+  "gallery": [
+    {
+      "Title": "Adorable Z Colored",
+      "Path": "gallery",
+      "Source": "adorable_z_colored.png",
+      "Address": "5385"
+    },
+    {
+      "Title": "Adorable Z 1.5",
+      "Path": "gallery",
+      "Source": "z_adorable2-5.png",
+      "Address": "6897"
+    },
+    {
+      "Title": "Beach Time",
+      "Path": "gallery",
+      "Source": "beach_time.png",
+      "Address": "7319"
+    },
+    {
+      "Title": "A Random Hug",
+      "Path": "gallery",
+      "Source": "a_random_hug.png",
+      "Address": "9440"
+    },
+    {
+      "Title": "Cat Z",
+      "Path": "gallery",
+      "Source": "cat_z.png",
+      "Address": "4419"
+    },
+    {
+      "Title": "Doom Flakes",
+      "Path": "gallery",
+      "Source": "Doom_Flakes.png",
+      "Address": "8415"
+    },
+    {
+      "Title": "It Itchs - Remix",
+      "Path": "gallery",
+      "Source": "it_itchs_-_remix.png",
+      "Address": "3866"
+    },
+    {
+      "Title": "Doom Flakes - Popochi",
+      "Path": "gallery",
+      "Source": "Doom_Flakes_-_Popochi.png",
+      "Address": "3977"
+    },
+    {
+      "Title": "Gir",
+      "Path": "gallery",
+      "Source": "gir.png",
+      "Address": "5945"
+    },
+    {
+      "Title": "Fried Brain",
+      "Path": "gallery",
+      "Source": "fried_brain.png",
+      "Address": "9727"
+    },
+    {
+      "Title": "Kim",
+      "Path": "gallery",
+      "Source": "kim.png",
+      "Address": "3607"
+    },
+    {
+      "Title": "Megawolf77",
+      "Path": "gallery",
+      "Source": "megawolf.png",
+      "Address": "3108"
+    }
+  ]
+}

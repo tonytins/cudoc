@@ -10,18 +10,19 @@
     {
         var rand = new Random();
         var gallery = new string[] {
-            "cat_z.png",
-            "boxers_of_america.png",
-            "z_meets_roboz.png",
-            "the_pepsi.png",
-            "z_goes_camping.png",
-            "win_xp_insane.png",
-            "on_the_train.png",
-            "z_adorable2-5.png",
-            "rvb_z_welcome.png"
+            "cat_z",
+            "boxers_of_america",
+            "z_meets_roboz",
+            "the_pepsi",
+            "z_goes_camping",
+            "win_xp_insane",
+            "on_the_train",
+            "z_adorable2-5",
+            "rvb_z_welcome",
+            "spit_bomber_tails"
             };
 
-        FeaturedImage = gallery[rand.Next(gallery.Length)];
+        FeaturedImage = $"{gallery[rand.Next(gallery.Length)]}.png";
 
         return base.OnParametersSetAsync();
     }

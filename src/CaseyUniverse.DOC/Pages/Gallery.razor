@@ -1,4 +1,6 @@
 ﻿@page "/gallery"
+@using System.Collections.Generic
+@inject HttpClient Http
 <h2>Gallery</h2>
 <div align="center">
     <p><Submission Source="4th_of_july.png" /> <Submission Source="a_random_hug.png" /> <Submission Source="adorable_z_colored.png" /> <Submission Source="alex.png" /> <Submission Source="beach_photo.png" /> <Submission Source="beach_time.png" /> </p>
@@ -10,6 +12,27 @@
 
 
 @code {
+    IEnumerable<Gallery> Submissions { get; set; }
 
+    int CountArt { get; set; } = 0;
+    bool IsReady { get; set; } = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            var gallery = await Http.GetFromJsonAsync<Gallery>(SiteHelper.LocalCDN("gallery.json"));
+
+            gallery = Submissions.AsParallel();
+
+            foreach (var var in gallery)
+                CountArt++;
+
+            IsReady = true;
+        }
+        catch
+        {
+        }
+    }
 }
 
