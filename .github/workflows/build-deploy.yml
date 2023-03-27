@@ -40,7 +40,7 @@ jobs:
       - name: Install dependencies
         run: dotnet restore src
       - name: Publish with dotnet
-        run: dotnet publish src/FurryBlue.DOC -c Release --output build --no-restore
+        run: dotnet publish src/CaseyUniverse.DOC -c Release --output build --no-restore
       - name: Deploy to Github Pages
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
