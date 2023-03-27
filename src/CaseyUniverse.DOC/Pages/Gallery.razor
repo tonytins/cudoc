@@ -17,9 +17,10 @@
     int CountArt { get; set; } = 0;
     bool IsReady { get; set; } = false;
 
-    protected override async Task OnParametersSetAsync()
+    protected override Task OnParametersSetAsync()
     {
-        try
+
+        /* try
         {
             var gallery = await Http.GetFromJsonAsync<Gallery>(SiteHelper.LocalCDN("gallery.json"));
 
@@ -32,7 +33,9 @@
         }
         catch
         {
-        }
+        }*/
+
+        return base.OnParametersSetAsync();
     }
 }
 
