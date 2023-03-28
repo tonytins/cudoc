@@ -25,8 +25,16 @@
   <ItemGroup>
     <Folder Include="wwwroot\data\" />
     <Folder Include="Models\" />
+    <Folder Include="Pages\Stories\" />
+    <Folder Include="Pages\Stories\FerretGirl\" />
+    <Folder Include="Pages\Stories\FerretGirl\Rewrite\" />
+    <Folder Include="Pages\Stories\FerretGirl\Original\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\" />
+    <None Remove="Pages\Stories\" />
+    <None Remove="Pages\Stories\FerretGirl\" />
+    <None Remove="Pages\Stories\FerretGirl\Rewrite\" />
+    <None Remove="Pages\Stories\FerretGirl\Original\" />
   </ItemGroup>
 </Project>
