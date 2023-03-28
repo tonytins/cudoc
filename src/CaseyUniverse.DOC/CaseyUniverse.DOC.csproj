@@ -29,6 +29,7 @@
     <Folder Include="Pages\Stories\FerretGirl\" />
     <Folder Include="Pages\Stories\FerretGirl\Rewrite\" />
     <Folder Include="Pages\Stories\FerretGirl\Original\" />
+    <Folder Include="Pages\Links\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\" />
@@ -36,5 +37,6 @@
     <None Remove="Pages\Stories\FerretGirl\" />
     <None Remove="Pages\Stories\FerretGirl\Rewrite\" />
     <None Remove="Pages\Stories\FerretGirl\Original\" />
+    <None Remove="Pages\Links\" />
   </ItemGroup>
 </Project>
