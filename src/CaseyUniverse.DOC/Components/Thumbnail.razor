@@ -1,10 +1,22 @@
 ﻿@if (!string.IsNullOrEmpty(Align))
 {
-    <img src="/images/@Path/@Source" width="@Width" align="@Align" />
+    <div align="@Align">
+        <img src="/images/@Path/@Source" width="@Width" />
+        @if (!string.IsNullOrEmpty(Caption))
+        {
+            <br />@Caption
+        }
+    </div>
 }
 else
 {
-    <img src="/images/@Path/@Source" width="@Width" />
+    <div>
+        <img src="/images/@Path/@Source" width="@Width" />
+        @if (!string.IsNullOrEmpty(Caption))
+        {
+            <br />@Caption
+        }
+    </div>
 }
 
 @code {
@@ -13,4 +25,5 @@ else
     [Parameter] public string Align { get; set; } = string.Empty;
     [Parameter] public string Link { get; set; } = string.Empty;
     [Parameter] public ThumbnailWidth Width { get; set; } = ThumbnailWidth.Small;
+    [Parameter] public string Caption { get; set; } = string.Empty;
 }
