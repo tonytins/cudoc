@@ -1,10 +1,10 @@
 ﻿@if (!string.IsNullOrEmpty(Align))
 {
-    <img src="/images/@Path/@Source" width="150" align="@Align" />
+    <img src="/images/@Path/@Source" width="@Width" align="@Align" />
 }
 else
 {
-    <img src="/images/@Path/@Source" width="150" />
+    <img src="/images/@Path/@Source" width="@Width" />
 }
 
 @code {
@@ -12,4 +12,5 @@ else
     [Parameter] public string Path { get; set; } = "gallery";
     [Parameter] public string Align { get; set; } = string.Empty;
     [Parameter] public string Link { get; set; } = string.Empty;
+    [Parameter] public ThumbnailWidth Width { get; set; } = ThumbnailWidth.Small;
 }
