@@ -1,4 +1,8 @@
-﻿using Markdig;
+﻿using CsvHelper;
+using System.Globalization;
+using System.Xml.Linq;
+using Markdig;
+using CaseyUniverse.DOC.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace CaseyUniverse.DOC;
@@ -14,19 +18,19 @@ public static class SiteHelper
     public static string ResolveImagePath(string image, string path) => @$"../images/{path}/{image}";
 
     /// <summary>
-    /// Returns the local CDN path based on the given json and path parameters.
+    /// Returns the local CDN path based on the given csv and path parameters.
     /// </summary>
-    /// <param name="json">The name of the json file.</param>
+    /// <param name="csv">The name of the csv file.</param>
     /// <param name="path">The name of the path.</param>
     /// <returns>The local CDN path as a string.</returns>
-    public static string LocalCDN(string json, string path) => $@"../data/{path}/{json}.json";
+    public static string LocalCDN(string csv, string path) => $@"../data/{path}/{csv}.csv";
 
     /// <summary>
-    /// Returns the local CDN path based on the given json parameter.
+    /// Returns the local CDN path based on the given csv parameter.
     /// </summary>
-    /// <param name="json">The name of the json file.</param>
+    /// <param name="csv">The name of the csv file.</param>
     /// <returns>The local CDN path as a string.</returns>
-    public static string LocalCDN(string json) => $@"../data/{json}.json";
+    public static string LocalCDN(string csv) => $@"../data/{csv}.csv";
 
     /// <summary>
     /// Returns the permalink based on the given name and key parameters.
@@ -35,6 +39,74 @@ public static class SiteHelper
     /// <param name="key">The key for the permalink.</param>
     /// <returns>The permalink as a string.</returns>
     public static string Permalink(string name, string key) => @$"{name}/{key}";
+
+    /// <summary>
+    /// Retrieves all the records from the provided CSV data and returns them as an enumerable collection of Gallery objects.
+    /// </summary>
+    /// <param name="csv">The CSV data stream.</param>
+    /// <returns>A list of Gallery objects.</returns>
+    static List<Gallery> GalleryRecords(Stream csv)
+    {
+        using var reader = new StreamReader(csv);
+        using var file = new CsvReader(reader, CultureInfo.InvariantCulture);
+        return file.GetRecords<Gallery>().ToList();
+    }
+
+    /// <summary>
+    /// Retrieves the Gallery object associated with the given ID from the provided CSV data.
+    /// </summary>
+    /// <param name="csv">The CSV data stream.</param>
+    /// <param name="id">The ID of the Gallery object to retrieve.</param>
+    /// <returns>The Gallery object associated with the ID.</returns>
+    /// <exception cref="System.IO.IOException">Thrown when there is a problem locating the file.</exception>
+    public static Gallery GalleryDb(Stream csv, int id)
+    {
+        var records = GalleryRecords(csv);
+
+        foreach (var record in records)
+        {
+            if (id == record.Id)
+            {
+                return new Gallery
+                {
+                    Id = record.Id,
+                    Filename = record.Filename,
+                    Title = record.Title,
+                    Path = record.Path
+                };
+            }
+        }
+
+        throw new IOException("There was a problem locating the file.");
+    }
+
+    /// <summary>
+    /// Retrieves the Gallery object associated with the given filename from the provided CSV data.
+    /// </summary>
+    /// <param name="csv">The CSV data stream.</param>
+    /// <param name="file">The filename of the Gallery object to retrieve.</param>
+    /// <returns>The Gallery object associated with the filename.</returns>
+    /// <exception cref="System.IO.IOException">Thrown when there is a problem locating the file.</exception>
+    public static Gallery GalleryDb(Stream csv, string file)
+    {
+        var records = GalleryRecords(csv);
+
+        foreach (var record in records)
+        {
+            if (file == record.Filename)
+            {
+                return new Gallery
+                {
+                    Id = record.Id,
+                    Filename = record.Filename,
+                    Title = record.Title
+                };
+            }
+        }
+
+        throw new IOException("There was a problem locating the file.");
+    }
+
 
     /// <summary>
     /// Converts the given Markdown content to HTML.

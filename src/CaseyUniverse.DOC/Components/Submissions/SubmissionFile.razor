@@ -1,32 +1,44 @@
-﻿@page "/view/{Path}/{Picture}"
-<h2>@Name</h2>
+﻿@page "/view/{Path}/{Filename}"
+@inject HttpClient _client
+<h2>@Title</h2>
 <div align="center">
-    <img src="/images/@Path/@Picture" />
+    <img src="/images/@Path/@Filename" />
 </div>
 @code {
 
-    [Parameter] public string Picture { get; set; } = string.Empty;
+    [Parameter] public string Filename { get; set; } = string.Empty;
     [Parameter] public string? Path { get; set; } = "gallery";
-    string Name { get; set; } = string.Empty;
+    string Title { get; set; } = string.Empty;
 
-    protected override Task OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync()
     {
-        var oldName = Picture;
-        var culture = new CultureInfo("en-US", false);
-        var txtInfo = culture.TextInfo;
-
-        Name = txtInfo.ToTitleCase(oldName
-            .Replace("zc", "Zack")
-            .Replace("_z", " Zack")
-            .Replace("z_", "Zack ")
-            .Replace('_', ' ')
-            .Replace(".png", string.Empty)
-            .Replace(".jpg", string.Empty)
-            .Replace(".gif", string.Empty)
-            .ToString());
+        var file = await _client.GetStreamAsync("data/gallery.csv");
+        var csv = SiteHelper.GalleryDb(file, Filename);
 
 
-        return base.OnParametersSetAsync();
+        Filename = csv.Filename;
+
+        if (!string.IsNullOrEmpty(csv.Title) || !string.IsNullOrWhiteSpace(csv.Title))
+            Title = csv.Title;
+        else
+        {
+            var oldName = Filename;
+            var culture = new CultureInfo("en-US", false);
+            var txtInfo = culture.TextInfo;
+
+            Title = txtInfo.ToTitleCase(oldName
+                .Replace("zc", "Zack")
+                .Replace("_z", " Zack")
+                .Replace("z_", "Zack ")
+                .Replace('_', ' ')
+                .Replace(".png", string.Empty)
+                .Replace(".jpg", string.Empty)
+                .Replace(".gif", string.Empty)
+                .ToString());
+        }
     }
+
+
+    // return base.OnParametersSetAsync();
 }
 

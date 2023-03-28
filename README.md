@@ -4,7 +4,9 @@ A way more advanced version of the original [D.O.C.](https://github.com/tonytins
 
 ## Background
 
-The initial version of DOC was based on Microsoft Frontpage 2003 and later Dreamweaver 8 before being abandoned due to the difficulty of maintaining each individual page. It was recently rediscovered again in old cloud backups containing some art previously considered lost, where it was restored and given a modern codebase. Finally, DOC was moved to Blazor WebAssembly for better maintenance after the opportunity to use an empty template became available.
+Inspired by Cartoon Network, I created DOC as the Furry Blue DOC when I was 17 using Microsoft Frontpage 2003. I learned Frontpage back when mom brought me to some of her collage classes. I eventually installed it myself onto future desktops, at that time, to create my own websites. For reference, the artwork on this site dates back two years prior to the original site's creation. Sometime later I attempted to maintain it using Dreamweaver 8 when I moved to macOS.
+
+It wasn't until recently that I rediscovered it again in old cloud backup containing some art I previously considered lost. I restored and cleaned up to the best of my ability until I realized how complex the simple looking site really was underneath. Having moved on from WYSIWYG editors, I migrated the codebase to it once I discovered .NET 7 and Blazor WebAssembly using thier blank templates. Funny, how I've come full circle in using Microsoft's products. xD
 
 ## To-do
 
