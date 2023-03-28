@@ -1,0 +1,64 @@
+﻿@page "/view/{Id}"
+@inject HttpClient _client
+@if (IsFinished)
+{
+    <h2>@Name</h2>
+    <div align="center">
+        <img src="/images/@Path/@Picture" />
+    </div>
+}
+else
+{
+    <div align="center">
+        <p>Loading...</p>
+    </div>
+}
+@code {
+
+    [Parameter] public string Id { get; set; } = string.Empty;
+    string Picture { get; set; } = string.Empty;
+    string Path { get; set; } = "gallery";
+    string Name { get; set; } = string.Empty;
+    bool IsFinished { get; set; } = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var file = await _client.GetStreamAsync("data/gallery.csv");
+        using var reader = new StreamReader(file);
+        using var csv = new CsvReader(reader, CultureInfo.InvariantCulture);
+        var records = csv.GetRecords<Gallery>();
+
+        try
+        {
+            foreach (var record in records)
+            {
+                if (Id == record.Id.ToString())
+                    Picture = record.Filename;
+            }
+
+            var oldName = Picture;
+            var culture = new CultureInfo("en-US", false);
+            var txtInfo = culture.TextInfo;
+
+            Name = txtInfo.ToTitleCase(oldName
+                .Replace("zc", "Zack")
+                .Replace("_z", " Zack")
+                .Replace("z_", "Zack ")
+                .Replace('_', ' ')
+                .Replace(".png", string.Empty)
+                .Replace(".jpg", string.Empty)
+                .Replace(".gif", string.Empty)
+                .ToString());
+
+            IsFinished = true;
+
+        }
+        catch (IOException err)
+        {
+            throw new IOException(err.StackTrace);
+        }
+
+        // return base.OnParametersSetAsync();
+    }
+}
+

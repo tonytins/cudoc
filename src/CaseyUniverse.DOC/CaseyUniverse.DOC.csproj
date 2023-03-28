@@ -17,6 +17,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.4" PrivateAssets="all" />
     <PackageReference Include="Markdig" Version="0.31.0" />
     <PackageReference Include="HtmlSanitizer" Version="8.0.645" />
+    <PackageReference Include="CsvHelper" Version="30.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +31,8 @@
     <Folder Include="Pages\Stories\FerretGirl\Rewrite\" />
     <Folder Include="Pages\Stories\FerretGirl\Original\" />
     <Folder Include="Pages\Links\" />
+    <Folder Include="Components\Thumbnails\" />
+    <Folder Include="Components\Submissions\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\" />
@@ -38,5 +41,7 @@
     <None Remove="Pages\Stories\FerretGirl\Rewrite\" />
     <None Remove="Pages\Stories\FerretGirl\Original\" />
     <None Remove="Pages\Links\" />
+    <None Remove="Components\Thumbnails\" />
+    <None Remove="Components\Submissions\" />
   </ItemGroup>
 </Project>
