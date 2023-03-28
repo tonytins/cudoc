@@ -18,7 +18,11 @@
         var txtInfo = culture.TextInfo;
 
 
-        Name = txtInfo.ToTitleCase(oldName.Replace('_', ' ')
+        Name = txtInfo.ToTitleCase(oldName
+            .Replace("zc", "Zack")
+            .Replace("_z", " Zack")
+            .Replace("z_", "Zack ")
+            .Replace('_', ' ')
             .Replace(".png", string.Empty)
             .Replace(".jpg", string.Empty)
             .Replace(".gif", string.Empty)
