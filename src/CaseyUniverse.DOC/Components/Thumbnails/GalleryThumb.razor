@@ -11,7 +11,7 @@ else
 @code {
     [Parameter] public string Source { get; set; } = string.Empty;
     [Parameter] public string Path { get; set; } = "gallery";
-    [Parameter] public ThumbnailWidth Width { get; set; } = ThumbnailWidth.Small;
+    [Parameter] public int Width { get; set; } = ThumbWidth.SMALL;
     [Parameter] public string Align { get; set; } = string.Empty;
     string Id { get; set; } = string.Empty;
 
