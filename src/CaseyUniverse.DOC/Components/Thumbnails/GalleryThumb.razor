@@ -10,9 +10,10 @@ else
 
 @code {
     [Parameter] public string Source { get; set; } = string.Empty;
-    [Parameter] public string Path { get; set; } = "gallery";
     [Parameter] public int Width { get; set; } = ThumbWidth.SMALL;
     [Parameter] public string Align { get; set; } = string.Empty;
+
+    string Path { get; set; } = string.Empty;
     string Id { get; set; } = string.Empty;
 
     protected override async Task OnParametersSetAsync()
@@ -22,6 +23,7 @@ else
             var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
             var csv = SiteHelper.GalleryDb(file, Source);
 
+            Path = csv.Path;
             Id = csv.Id.ToString();
         }
         catch (Exception err)
