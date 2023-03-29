@@ -1,14 +1,32 @@
-﻿@if (!string.IsNullOrEmpty(Align))
+﻿@inject HttpClient _client
+@if (!string.IsNullOrEmpty(Align))
 {
-    <a href="/view/@Path/@Source"><img src="/images/@Path/@Source" width="150" align="@Align" /></a>
+    <a href="/view/@Id"><img src="/images/@Path/@Source" width="@Width" align="@Align" /></a>
 }
 else
 {
-    <a href="/view/@Path/@Source"><img src="/images/@Path/@Source" width="150" /></a>
+    <a href="/view/@Id"><img src="/images/@Path/@Source" width="@Width" /></a>
 }
 
 @code {
-    [Parameter] public string? Source { get; set; } = string.Empty;
-    [Parameter] public string? Path { get; set; } = "gallery";
-    [Parameter] public string? Align { get; set; } = string.Empty;
+    [Parameter] public string Source { get; set; } = string.Empty;
+    [Parameter] public string Path { get; set; } = "gallery";
+    [Parameter] public ThumbnailWidth Width { get; set; } = ThumbnailWidth.Small;
+    [Parameter] public string Align { get; set; } = string.Empty;
+    string Id { get; set; } = string.Empty;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+            var csv = SiteHelper.GalleryDb(file, Source);
+
+            Id = csv.Id.ToString();
+        }
+        catch (Exception err)
+        {
+            throw new Exception(err.Message);
+        }
+    }
 }

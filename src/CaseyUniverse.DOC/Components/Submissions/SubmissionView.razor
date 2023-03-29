@@ -6,7 +6,7 @@
     {
         <h2>@Title</h2>
         <div align="center">
-            <img src="/images/@Path/@Picture" />
+            <img src="/images/@Path/@Filename" />
         </div>
     }
     else
@@ -27,7 +27,7 @@ catch
 @code {
 
     [Parameter] public string Id { get; set; } = string.Empty;
-    string Picture { get; set; } = string.Empty;
+    string Filename { get; set; } = string.Empty;
     string Path { get; set; } = "gallery";
     string Title { get; set; } = string.Empty;
     bool IsFinished { get; set; } = false;
@@ -36,17 +36,17 @@ catch
     {
         try
         {
-            var file = await _client.GetStreamAsync("data/gallery.csv");
+            var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
             var csv = SiteHelper.GalleryDb(file, int.Parse(Id));
 
             Path = csv.Path;
-            Picture = csv.Filename;
+            Filename = csv.Filename;
 
             if (!string.IsNullOrEmpty(csv.Title) || !string.IsNullOrWhiteSpace(csv.Title))
                 Title = csv.Title;
             else
             {
-                var oldName = Picture;
+                var oldName = Filename;
                 var culture = new CultureInfo("en-US", false);
                 var txtInfo = culture.TextInfo;
 

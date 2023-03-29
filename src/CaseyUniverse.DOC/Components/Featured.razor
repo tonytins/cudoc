@@ -1,42 +1,27 @@
-﻿<div class="featured">
-    <a href="/view/gallery/@FeaturedImage"><img src="/images/gallery/@FeaturedImage" /></a>
+﻿@inject HttpClient _client
+<div class="featured">
+    <a href="/view/@Id"><img src="/images/gallery/@FeaturedImage" /></a>
 </div>
 
 
 @code {
     string FeaturedImage { get; set; } = string.Empty;
+    string Id { get; set; } = string.Empty;
 
-    protected override Task OnParametersSetAsync()
+    protected override async Task OnParametersSetAsync()
     {
+        var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+        var csv = SiteHelper.GalleryRecords(file);
         var rand = new Random();
-        var gallery = new string[] {
-            "cat_z",
-            "boxers_of_america",
-            "z_meets_roboz",
-            "battery_park",
-            "the_pepsi",
-            "rain_go_away",
-            "get_something_done",
-            "zc_paint",
-            "z_goes_camping",
-            "win_xp_insane",
-            "on_the_train",
-            "z_adorable2-5",
-            "beach_time",
-            "zc_paint_v2",
-            "me_as_a_fox",
-            "zc_cooks",
-            "Zindows_Trista", // I just made that because I was disappointed at not getting Longhorn
-            "rvb_z_welcome",
-            "spit_bomber_tails",
-            // "above_the_world",
-            "Sims_Trophie",
-            "sallys_dark_world"
-            };
+        var index = rand.Next(csv.Count);
 
-        FeaturedImage = $"{gallery[rand.Next(gallery.Length)]}.png";
+        if (csv[index].Path.Contains("animations") || csv[index].Path.Contains("modelsheets"))
+            index = rand.Next(csv.Count);
 
-        return base.OnParametersSetAsync();
+        var feature = csv[index];
+
+        FeaturedImage = feature.Filename;
+        Id = feature.Id.ToString();
     }
 }
 

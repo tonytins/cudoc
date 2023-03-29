@@ -45,7 +45,7 @@ public static class SiteHelper
     /// </summary>
     /// <param name="csv">The CSV data stream.</param>
     /// <returns>A list of Gallery objects.</returns>
-    static List<Gallery> GalleryRecords(Stream csv)
+    public static List<Gallery> GalleryRecords(Stream csv)
     {
         using var reader = new StreamReader(csv);
         using var file = new CsvReader(reader, CultureInfo.InvariantCulture);
@@ -58,7 +58,7 @@ public static class SiteHelper
     /// <param name="csv">The CSV data stream.</param>
     /// <param name="id">The ID of the Gallery object to retrieve.</param>
     /// <returns>The Gallery object associated with the ID.</returns>
-    /// <exception cref="System.IO.IOException">Thrown when there is a problem locating the file.</exception>
+    /// <exception cref="IOException">Thrown when there is a problem locating the file.</exception>
     public static Gallery GalleryDb(Stream csv, int id)
     {
         var records = GalleryRecords(csv);
@@ -86,7 +86,7 @@ public static class SiteHelper
     /// <param name="csv">The CSV data stream.</param>
     /// <param name="file">The filename of the Gallery object to retrieve.</param>
     /// <returns>The Gallery object associated with the filename.</returns>
-    /// <exception cref="System.IO.IOException">Thrown when there is a problem locating the file.</exception>
+    /// <exception cref="IOException">Thrown when there is a problem locating the file.</exception>
     public static Gallery GalleryDb(Stream csv, string file)
     {
         var records = GalleryRecords(csv);
@@ -99,7 +99,8 @@ public static class SiteHelper
                 {
                     Id = record.Id,
                     Filename = record.Filename,
-                    Title = record.Title
+                    Title = record.Title,
+                    Path = record.Path
                 };
             }
         }

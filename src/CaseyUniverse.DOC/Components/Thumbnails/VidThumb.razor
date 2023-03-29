@@ -1,6 +1,23 @@
-﻿<a href="/view/animations/@Source"><img src="/images/thumbnails/animations/tn_@Thumbnail" /></a>
+﻿@inject HttpClient _client
+<a href="/view/@Id"><img src="/images/thumbnails/animations/tn_@Thumbnail" /></a>
 
 @code {
     [Parameter] public string Source { get; set; } = string.Empty;
     [Parameter] public string Thumbnail { get; set; } = string.Empty;
+    string Id { get; set; } = string.Empty;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+            var csv = SiteHelper.GalleryDb(file, Source);
+
+            Id = csv.Id.ToString();
+        }
+        catch (Exception err)
+        {
+            throw new Exception(err.Message);
+        }
+    }
 }

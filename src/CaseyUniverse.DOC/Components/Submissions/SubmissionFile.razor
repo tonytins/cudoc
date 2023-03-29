@@ -12,7 +12,7 @@
 
     protected override async Task OnParametersSetAsync()
     {
-        var file = await _client.GetStreamAsync("data/gallery.csv");
+        var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
         var csv = SiteHelper.GalleryDb(file, Filename);
 
 
