@@ -33,6 +33,7 @@
     <Folder Include="Pages\Links\" />
     <Folder Include="Components\Thumbnails\" />
     <Folder Include="Components\Submissions\" />
+    <Folder Include="Pages\Legal\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Models\" />
@@ -43,5 +44,6 @@
     <None Remove="Pages\Links\" />
     <None Remove="Components\Thumbnails\" />
     <None Remove="Components\Submissions\" />
+    <None Remove="Pages\Legal\" />
   </ItemGroup>
 </Project>
