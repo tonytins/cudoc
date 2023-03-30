@@ -10,9 +10,10 @@ It wasn't until recently that I rediscovered it again in old cloud backup contai
 
 ## To-do
 
-- [ ] Migrate from tables to DIVs
+- [x] Migrate away from table layout
+- [ ] Write comic architecture
 - [ ] Target .NET 8
 
 ## License
 
-I license this project under the AGPL-3.0 license - see [LICENSE](LICENSE) for details.
+I license this project under the LGPL-3.0 license - see [LICENSE](LICENSE) for details.

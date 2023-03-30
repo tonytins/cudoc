@@ -1,0 +1,67 @@
+﻿@page "/comic/{Id}"
+@inject HttpClient _client
+@try
+{
+    @if (IsFinished)
+    {
+        <h2>@Issue</h2>
+        <div align="center">
+            <img src="/images/comics/@Filename" /><br />
+            <a>Next Page</a>
+        </div>
+    }
+    else
+    {
+        <div align="center">
+            <p>Loading...</p>
+        </div>
+    }
+}
+catch
+{
+    <div align="center">
+        <img src="images/XDsquare.png" />
+        <p>Woops! Can't find the image.</p>
+    </div>
+}
+
+@code {
+
+    [Parameter] public string Id { get; set; } = string.Empty;
+    string Filename { get; set; } = string.Empty;
+    string Issue { get; set; } = string.Empty;
+    int Page { get; set; } = 0;
+    bool IsFinished { get; set; } = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            var file = await _client.GetStreamAsync(GlobalConsts.COMIC_CSV);
+            var csv = SiteHelper.ComicDb(file, int.Parse(Id));
+            var records = SiteHelper.ComicRecords(file);
+            var pages = new Dictionary<int, string>();
+
+            foreach (var record in records)
+            {
+                if (csv.Issue == record.Issue)
+                    pages.Add(record.Id, record.Page);
+            }
+
+            foreach (var page in pages)
+            {
+
+            }
+
+            Filename = csv.Filename;
+            Issue = csv.Issue;
+
+            IsFinished = true;
+        }
+        catch (Exception err)
+        {
+            throw new Exception(err.Message);
+        }
+    }
+}
+

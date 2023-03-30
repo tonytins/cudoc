@@ -53,6 +53,18 @@ public static class SiteHelper
     }
 
     /// <summary>
+    /// Retrieves all the records from the provided CSV data and returns them as an enumerable collection of Gallery objects.
+    /// </summary>
+    /// <param name="csv">The CSV data stream.</param>
+    /// <returns>A list of Gallery objects.</returns>
+    public static List<Comic> ComicRecords(Stream csv)
+    {
+        using var reader = new StreamReader(csv);
+        using var file = new CsvReader(reader, CultureInfo.InvariantCulture);
+        return file.GetRecords<Comic>().ToList();
+    }
+
+    /// <summary>
     /// Retrieves the Gallery object associated with the given ID from the provided CSV data.
     /// </summary>
     /// <param name="csv">The CSV data stream.</param>
@@ -101,6 +113,34 @@ public static class SiteHelper
                     Filename = record.Filename,
                     Title = record.Title,
                     Path = record.Path
+                };
+            }
+        }
+
+        throw new IOException("There was a problem locating the file.");
+    }
+
+    /// <summary>
+    /// Retrieves the Gallery object associated with the given filename from the provided CSV data.
+    /// </summary>
+    /// <param name="csv">The CSV data stream.</param>
+    /// <param name="file">The filename of the Gallery object to retrieve.</param>
+    /// <returns>The Gallery object associated with the filename.</returns>
+    /// <exception cref="IOException">Thrown when there is a problem locating the file.</exception>
+    public static Comic ComicDb(Stream csv, int id)
+    {
+        var records = ComicRecords(csv);
+
+        foreach (var record in records)
+        {
+            if (id == record.Id)
+            {
+                return new Comic
+                {
+                    Id = record.Id,
+                    Filename = record.Filename,
+                    Page = record.Page,
+                    Issue = record.Issue
                 };
             }
         }

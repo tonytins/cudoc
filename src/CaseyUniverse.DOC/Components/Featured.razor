@@ -17,7 +17,8 @@
 
         if (!csv[index].Path.Contains("animations")
             || !csv[index].Path.Contains("modelsheets")
-            || !csv[index].Path.Contains("wallpaper"))
+            || !csv[index].Path.Contains("wallpaper")
+            || csv[index].Filename.Contains("be_my_buddy.png"))
         {
             var feature = csv[index];
 
