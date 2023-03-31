@@ -1,13 +1,29 @@
 @page "/view/{Id}"
 @inject HttpClient _client
+@* Displays an image or markdown file based on the file extension and provides a link to the page where the file was found. *@
 @try
 {
     @if (IsFinished)
     {
-        <DynMeta Image="@ImagePath" PreviousPage="@PathTitle" Name="@Title" />
-        <div align="center">
-            <img src="/images/@Path/@Filename" />
-        </div>
+        <DynMeta PreviousPage="@PathTitle" Name="@Title" />
+        @if (!string.IsNullOrEmpty(Markdown)
+&& Filename.Contains("md", StringComparison.CurrentCultureIgnoreCase))
+        {
+            <div class="story">
+                <p>
+                    @Markdown.MarkdownToHtml()
+                </p>
+            </div>
+        }
+        else
+        {
+            <div align="center">
+                <img src="/images/@Path/@Filename" />
+            </div>
+        }
+        <p align="center">
+            Return to <a href="/@Path">@PathTitle</a> page
+        </p>
     }
     else
     {
@@ -21,48 +37,96 @@ catch
 
 @code {
 
+    /// <summary>
+    /// Gets or sets the identifier of the image or markdown file to be displayed.
+    /// </summary>
+    /// <value>A string representing the identifier of the file.</value>
     [Parameter] public string Id { get; set; } = string.Empty;
-    string ImagePath => $"{_client.BaseAddress}images/{Path}/{Filename}";
+
+    /// <summary>
+    /// Gets or sets the filename of the image or markdown file.
+    /// </summary>
+    /// <value>A string representing the filename of the file.</value>
     string Filename { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the path of the folder containing the image or markdown file.
+    /// </summary>
+    /// <value>A string representing the path of the folder.</value>
     string Path { get; set; } = "gallery";
+
+    /// <summary>
+    /// Gets or sets the title of the folder containing the image or markdown file.
+    /// </summary>
+    /// <value>A string representing the title of the folder.</value>
     string PathTitle { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the title of the image or markdown file.
+    /// </summary>
+    /// <value>A string representing the title of the file.</value>
     string Title { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the content of the markdown file.
+    /// </summary>
+    /// <value>A string representing the markdown content of the file.</value>
+    string Markdown { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the image or markdown file has finished loading.
+    /// </summary>
+    /// <value><c>true</c> if the file has finished loading; otherwise, <c>false</c>.</value>
     bool IsFinished { get; set; } = false;
 
     protected override async Task OnParametersSetAsync()
     {
         try
         {
+            // Get the CSV file from the server and retrieve the data for the requested gallery item.
             var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
             var csv = GalleryDB.Reader(file, int.Parse(Id));
+
+            // Convert the path to title case for displaying on the page.
             var culture = new CultureInfo("en-US", false);
             var txtInfo = culture.TextInfo;
-
             Path = csv.Path;
             PathTitle = txtInfo.ToTitleCase(Path);
-            Filename = csv.Filename;
 
+            // Set the filename and load the markdown content if it exists.
+            Filename = csv.Filename;
+            if (Filename.Contains("md", StringComparison.CurrentCultureIgnoreCase))
+            {
+                var mdfile = _client.GetStringAsync($"{csv.Path}/{csv.Filename}");
+                var mdContent = await mdfile;
+                Markdown = mdContent;
+            }
+
+            // Determine the page title, which is either the title in the CSV file or the filename with some
+            // transformations applied to make it more readable.
             if (!string.IsNullOrEmpty(csv.Title) || !string.IsNullOrWhiteSpace(csv.Title))
                 Title = csv.Title;
             else
             {
                 var oldName = Filename;
-
                 Title = txtInfo.ToTitleCase(oldName
-                .Replace("zc", "Zack", StringComparison.CurrentCultureIgnoreCase)
-                .Replace("_z", " Zack", StringComparison.CurrentCultureIgnoreCase)
-                .Replace("z_", "Zack ", StringComparison.CurrentCultureIgnoreCase)
-                .Replace('_', ' ')
-                .Replace(".png", string.Empty, StringComparison.CurrentCultureIgnoreCase)
-                .Replace(".jpg", string.Empty, StringComparison.CurrentCultureIgnoreCase)
-                .Replace(".gif", string.Empty, StringComparison.CurrentCultureIgnoreCase)
-                .ToString());
+                    .Replace("zc", "Zack", StringComparison.CurrentCultureIgnoreCase)
+                    .Replace("_z", " Zack", StringComparison.CurrentCultureIgnoreCase)
+                    .Replace("z_", "Zack ", StringComparison.CurrentCultureIgnoreCase)
+                    .Replace('_', ' ')
+                    .Replace(".png", string.Empty, StringComparison.CurrentCultureIgnoreCase)
+                    .Replace(".jpg", string.Empty, StringComparison.CurrentCultureIgnoreCase)
+                    .Replace(".gif", string.Empty, StringComparison.CurrentCultureIgnoreCase)
+                    .Replace(".md", string.Empty, StringComparison.CurrentCultureIgnoreCase)
+                    .ToString());
             }
 
+            // Set the flag indicating that the page is finished loading.
             IsFinished = true;
         }
         catch (Exception err)
         {
+            // If an error occurs, throw an exception to display the "Not Found" page.
             throw new Exception(err.Message);
         }
     }

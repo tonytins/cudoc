@@ -20,11 +20,16 @@ else
         <meta name="description" content="@Description" property="og:description" data-rh="true">
     }
 </HeadContent>
-
-@if (Heading)
-{
-    <h2>@Name</h2>
-}
+<div>
+    @if (Heading)
+    {
+        <h2>@Name</h2>
+    }
+    @if (!string.IsNullOrEmpty(Description))
+    {
+        <p>@Description</p>
+    }
+</div>
 
 @code {
 

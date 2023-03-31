@@ -13,9 +13,10 @@
         var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
         var csv = SiteHelper.DatabaseRecords<Gallery>(file);
 
-        csv.RemoveAll(db => db.Path.Contains("animations") 
+        csv.RemoveAll(db => db.Path.Contains("animations")
         || db.Path.Contains("modelsheets")
         || db.Path.Contains("wallpaper")
+        || db.Path.Contains("stories")
         || db.Filename.Contains("be_my_buddy.png"));
 
         var rand = new Random();
