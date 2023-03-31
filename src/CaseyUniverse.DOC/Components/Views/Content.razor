@@ -1,4 +1,4 @@
-﻿@page "/view/{Id}"
+@page "/view/{Id}"
 @inject HttpClient _client
 @try
 {
@@ -12,7 +12,7 @@
     else
     {
         <div align="center">
-            <p>Loading...</p>
+            <div class="progress-bar"></div>
         </div>
     }
 }

@@ -1,4 +1,4 @@
-﻿@page "/comic/{Id}"
+@page "/comic/{Id}"
 @inject HttpClient _client
 @try
 {
@@ -41,17 +41,7 @@ catch
             var csv = ComicDB.Reader(file, int.Parse(Id));
             var records = SiteHelper.DatabaseRecords<Comic>(file);
             var pages = new Dictionary<int, string>();
-
-            foreach (var record in records)
-            {
-                if (csv.Issue == record.Issue)
-                    pages.Add(record.Id, record.Page);
-            }
-
-            foreach (var page in pages)
-            {
-
-            }
+            
 
             Filename = csv.Filename;
             Issue = csv.Issue;
