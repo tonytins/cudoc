@@ -13,6 +13,7 @@ It wasn't until recently that I rediscovered it again in old cloud backup contai
 - [x] Migrate away from table layout
 - [ ] Write comic architecture
 - [ ] Target .NET 8
+- [ ] Turn into template for future projects
 
 ## License
 
