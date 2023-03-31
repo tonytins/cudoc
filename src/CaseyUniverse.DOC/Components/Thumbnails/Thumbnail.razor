@@ -1,7 +1,7 @@
 ﻿@if (!string.IsNullOrEmpty(Align))
 {
     <div align="@Align">
-        <img src="/images/@Path/@Source" width="@Width" />
+        <img src="/images/@Path/@Source" width="@Width" align="@Align" />
         @if (!string.IsNullOrEmpty(Caption))
         {
             <br />@Caption

@@ -38,8 +38,8 @@ catch
         try
         {
             var file = await _client.GetStreamAsync(GlobalConsts.COMIC_CSV);
-            var csv = SiteHelper.ComicDb(file, int.Parse(Id));
-            var records = SiteHelper.ComicRecords(file);
+            var csv = ComicDB.Reader(file, int.Parse(Id));
+            var records = SiteHelper.DatabaseRecords<Comic>(file);
             var pages = new Dictionary<int, string>();
 
             foreach (var record in records)

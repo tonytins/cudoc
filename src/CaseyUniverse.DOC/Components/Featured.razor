@@ -1,4 +1,4 @@
-﻿@inject HttpClient _client
+@inject HttpClient _client
 <div class="featured">
     <a href="/view/@Id"><img src="/images/gallery/@FeaturedImage" /></a>
 </div>
@@ -11,22 +11,19 @@
     protected override async Task OnParametersSetAsync()
     {
         var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
-        var csv = SiteHelper.GalleryRecords(file);
+        var csv = SiteHelper.DatabaseRecords<Gallery>(file);
+
+        csv.RemoveAll(db => db.Path.Contains("animations") 
+        || db.Path.Contains("modelsheets")
+        || db.Path.Contains("wallpaper")
+        || db.Filename.Contains("be_my_buddy.png"));
+
         var rand = new Random();
         var index = rand.Next(csv.Count);
+        var feature = csv[index];
 
-        if (!csv[index].Path.Contains("animations")
-            || !csv[index].Path.Contains("modelsheets")
-            || !csv[index].Path.Contains("wallpaper")
-            || csv[index].Filename.Contains("be_my_buddy.png"))
-        {
-            var feature = csv[index];
-
-            FeaturedImage = feature.Filename;
-            Id = feature.Id.ToString();
-        }
-        else
-            index = rand.Next(csv.Count);
+        FeaturedImage = feature.Filename;
+        Id = feature.Id.ToString();
     }
 }
 

@@ -11,7 +11,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped<HtmlSanitizer, HtmlSanitizer>(x =>
 {
     var sanantize = new HtmlSanitizer();
-    // sanantize.AllowedAttributes.Add("class");
     return sanantize;
 });
 

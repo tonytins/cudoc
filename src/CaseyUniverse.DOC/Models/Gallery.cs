@@ -2,7 +2,7 @@
 
 namespace CaseyUniverse.DOC.Models;
 
-public record Gallery
+public record Gallery : IDatabase
 {
     [Name("Id")] public int Id { get; set; } = 0;
     [Name("Filename")] public string Filename { get; set; } = string.Empty;

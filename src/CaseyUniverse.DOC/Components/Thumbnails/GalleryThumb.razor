@@ -21,7 +21,7 @@ else
         try
         {
             var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
-            var csv = SiteHelper.GalleryDb(file, Source);
+            var csv = GalleryDB.Reader(file, Source);
 
             Path = csv.Path;
             Id = csv.Id.ToString();
