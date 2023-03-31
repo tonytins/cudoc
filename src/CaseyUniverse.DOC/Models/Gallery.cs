@@ -8,4 +8,5 @@ public record Gallery : IDatabase
     [Name("Filename")] public string Filename { get; set; } = string.Empty;
     [Name("Title")] public string Title { get; set; } = string.Empty;
     [Name("Path")] public string Path { get; set; } = string.Empty;
+    [Name("Description")] public string Description { get; set; } = string.Empty;
 }

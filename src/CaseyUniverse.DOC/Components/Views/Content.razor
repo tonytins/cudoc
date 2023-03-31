@@ -5,7 +5,7 @@
 {
     @if (IsFinished)
     {
-        <DynMeta PreviousPage="@PathTitle" Name="@Title" />
+        <DynMeta Description="@Description" PreviousPage="@PathTitle" Name="@Title" />
         @if (!string.IsNullOrEmpty(Markdown)
 && Filename.Contains("md", StringComparison.CurrentCultureIgnoreCase))
         {
@@ -56,6 +56,12 @@ catch
     string Path { get; set; } = "gallery";
 
     /// <summary>
+    /// Gets or sets the description of the image or markdown file.
+    /// </summary>
+    /// <value>A string representing the description of the file.</value>
+    string Description { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the title of the folder containing the image or markdown file.
     /// </summary>
     /// <value>A string representing the title of the folder.</value>
@@ -101,6 +107,9 @@ catch
                 var mdContent = await mdfile;
                 Markdown = mdContent;
             }
+
+            if (!string.IsNullOrEmpty(csv.Description))
+                Description = csv.Description;
 
             // Determine the page title, which is either the title in the CSV file or the filename with some
             // transformations applied to make it more readable.

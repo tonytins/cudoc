@@ -22,7 +22,8 @@ public class GalleryDB
                     Id = record.Id,
                     Filename = record.Filename,
                     Title = record.Title,
-                    Path = record.Path
+                    Path = record.Path,
+                    Description = record.Description
                 };
             }
         }
@@ -50,7 +51,8 @@ public class GalleryDB
                     Id = record.Id,
                     Filename = record.Filename,
                     Title = record.Title,
-                    Path = record.Path
+                    Path = record.Path,
+                    Description = record.Description
                 };
             }
         }
