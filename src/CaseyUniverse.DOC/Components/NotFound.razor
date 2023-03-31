@@ -1,0 +1,10 @@
+<DynTitle Name="@Title" Heading="false" />
+<div align="center">
+    <img src="images/XDsquare.png" />
+    <p>@Message</p>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "Not Found";
+    [Parameter] public string Message { get; set; } = "Woops! Looks like there's nothing here.";
+}

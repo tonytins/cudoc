@@ -12,14 +12,12 @@
     }
     else
     {
-        <div align="center">
-            <div class="progress-bar"></div>
-        </div>
+        <LoadingBar />
     }
 }
 catch
 {
-    <ErrorDisplay />
+    <NotFound />
 }
 @code {
     [Parameter] public string Id { get; set; } = string.Empty;

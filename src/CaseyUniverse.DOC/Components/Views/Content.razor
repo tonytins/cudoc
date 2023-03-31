@@ -11,14 +11,12 @@
     }
     else
     {
-        <div align="center">
-            <div class="progress-bar"></div>
-        </div>
+        <LoadingBar />
     }
 }
 catch
 {
-    <ErrorDisplay />
+    <NotFound />
 }
 
 @code {

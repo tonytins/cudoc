@@ -6,29 +6,48 @@ else
 {
     <PageTitle>@Name - @GlobalConsts.SITE_NAME</PageTitle>
 }
+
 <HeadContent>
     <meta name="title" content="@Name - @GlobalConsts.SITE_NAME" property="og:title" data-rh="true">
+    @if (!string.IsNullOrEmpty(Description))
+    {
+        <meta name="description" content="@Description" property="og:description" data-rh="true">
+    }
 </HeadContent>
-<h2>@Name</h2>
+
+@if (Heading)
+{
+    <h2>@Name</h2>
+}
 
 @code {
+
     /// <summary>
-    /// Name of the page that will be displayed in the title and heading elements.
+    /// The name of the page that will be displayed in the title and heading elements.
     /// </summary>
+    /// <value>A string representing the name of the page.</value>
     [Parameter]
     public string? Name { get; set; } = string.Empty;
 
+    /// <summary>
+    /// A value indicating whether a heading element will be displayed on the page.
+    /// </summary>
+    /// <value><c>true</c> if a heading element will be displayed; otherwise, <c>false</c>.</value>
+    [Parameter]
+    public bool Heading { get; set; } = true;
 
     /// <summary>
-    /// Root page name, which will be displayed in the title element along with the name of the current page.
+    /// The name of the root page, which will be displayed in the title element along with the name of the current page.
     /// </summary>
+    /// <value>A string representing the name of the root page.</value>
     [Parameter]
     public string? Root { get; set; } = string.Empty;
 
-
     /// <summary>
-    /// Page description
+    /// The description of the page that will be displayed in the meta description tag.
     /// </summary>
-    [Parameter] public string? Description { get; set; } = string.Empty;
+    /// <value>A string representing the description of the page.</value>
+    [Parameter]
+    public string? Description { get; set; } = string.Empty;
 }
 
