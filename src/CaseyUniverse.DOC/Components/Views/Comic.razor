@@ -4,7 +4,7 @@
 {
     @if (IsFinished)
     {
-        <h2>@Issue</h2>
+        <DynTitle Root="Comics" Name="@Issue" />
         <div align="center">
             <img src="/images/comics/@Filename" /><br />
             <a>Next Page</a>
@@ -13,26 +13,20 @@
     else
     {
         <div align="center">
-            <p>Loading...</p>
+            <div class="progress-bar"></div>
         </div>
     }
 }
 catch
 {
-    <div align="center">
-        <img src="images/XDsquare.png" />
-        <p>Woops! Can't find the image.</p>
-    </div>
+    <ErrorDisplay />
 }
-
 @code {
-
     [Parameter] public string Id { get; set; } = string.Empty;
     string Filename { get; set; } = string.Empty;
     string Issue { get; set; } = string.Empty;
     int Page { get; set; } = 0;
     bool IsFinished { get; set; } = false;
-
     protected override async Task OnParametersSetAsync()
     {
         try
@@ -41,7 +35,7 @@ catch
             var csv = ComicDB.Reader(file, int.Parse(Id));
             var records = SiteHelper.DatabaseRecords<Comic>(file);
             var pages = new Dictionary<int, string>();
-            
+
 
             Filename = csv.Filename;
             Issue = csv.Issue;

@@ -1,0 +1,34 @@
+@if (!string.IsNullOrEmpty(Root))
+{
+    <PageTitle>@Name - @Root - @GlobalConsts.SITE_NAME</PageTitle>
+}
+else
+{
+    <PageTitle>@Name - @GlobalConsts.SITE_NAME</PageTitle>
+}
+<HeadContent>
+    <meta name="title" content="@Name - @GlobalConsts.SITE_NAME" property="og:title" data-rh="true">
+</HeadContent>
+<h2>@Name</h2>
+
+@code {
+    /// <summary>
+    /// Name of the page that will be displayed in the title and heading elements.
+    /// </summary>
+    [Parameter]
+    public string? Name { get; set; } = string.Empty;
+
+
+    /// <summary>
+    /// Root page name, which will be displayed in the title element along with the name of the current page.
+    /// </summary>
+    [Parameter]
+    public string? Root { get; set; } = string.Empty;
+
+
+    /// <summary>
+    /// Page description
+    /// </summary>
+    [Parameter] public string? Description { get; set; } = string.Empty;
+}
+

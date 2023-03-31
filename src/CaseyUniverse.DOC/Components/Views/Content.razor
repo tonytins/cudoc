@@ -4,7 +4,7 @@
 {
     @if (IsFinished)
     {
-        <h2>@Title</h2>
+        <DynTitle Root="@PathTitle" Name="@Title" />
         <div align="center">
             <img src="/images/@Path/@Filename" />
         </div>
@@ -18,10 +18,7 @@
 }
 catch
 {
-    <div align="center">
-        <img src="images/XDsquare.png" />
-        <p>Woops! Can't find the image.</p>
-    </div>
+    <ErrorDisplay />
 }
 
 @code {
@@ -29,6 +26,7 @@ catch
     [Parameter] public string Id { get; set; } = string.Empty;
     string Filename { get; set; } = string.Empty;
     string Path { get; set; } = "gallery";
+    string PathTitle { get; set; } = string.Empty;
     string Title { get; set; } = string.Empty;
     bool IsFinished { get; set; } = false;
 
@@ -38,8 +36,11 @@ catch
         {
             var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
             var csv = GalleryDB.Reader(file, int.Parse(Id));
+            var culture = new CultureInfo("en-US", false);
+            var txtInfo = culture.TextInfo;
 
             Path = csv.Path;
+            PathTitle = txtInfo.ToTitleCase(Path);
             Filename = csv.Filename;
 
             if (!string.IsNullOrEmpty(csv.Title) || !string.IsNullOrWhiteSpace(csv.Title))
@@ -47,18 +48,16 @@ catch
             else
             {
                 var oldName = Filename;
-                var culture = new CultureInfo("en-US", false);
-                var txtInfo = culture.TextInfo;
 
                 Title = txtInfo.ToTitleCase(oldName
-                    .Replace("zc", "Zack")
-                    .Replace("_z", " Zack")
-                    .Replace("z_", "Zack ")
-                    .Replace('_', ' ')
-                    .Replace(".png", string.Empty)
-                    .Replace(".jpg", string.Empty)
-                    .Replace(".gif", string.Empty)
-                    .ToString());
+                .Replace("zc", "Zack")
+                .Replace("_z", " Zack")
+                .Replace("z_", "Zack ")
+                .Replace('_', ' ')
+                .Replace(".png", string.Empty)
+                .Replace(".jpg", string.Empty)
+                .Replace(".gif", string.Empty)
+                .ToString());
             }
 
             IsFinished = true;
