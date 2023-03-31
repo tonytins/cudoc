@@ -1,4 +1,5 @@
 @page "/view/{Id}"
+@page "/{Path}/{Id}"
 @inject HttpClient _client
 @* Displays an image or markdown file based on the file extension and provides a link to the page where the file was found. *@
 @try
@@ -32,7 +33,7 @@
 }
 catch
 {
-    <NotFound />
+    <NotFound Message="@ErrorMessage" />
 }
 
 @code {
@@ -44,16 +45,16 @@ catch
     [Parameter] public string Id { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets the path of the folder containing the image or markdown file.
+    /// </summary>
+    /// <value>A string representing the path of the folder.</value>
+    [Parameter] public string Path { get; set; } = "gallery";
+
+    /// <summary>
     /// Gets or sets the filename of the image or markdown file.
     /// </summary>
     /// <value>A string representing the filename of the file.</value>
     string Filename { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the path of the folder containing the image or markdown file.
-    /// </summary>
-    /// <value>A string representing the path of the folder.</value>
-    string Path { get; set; } = "gallery";
 
     /// <summary>
     /// Gets or sets the description of the image or markdown file.
@@ -84,6 +85,8 @@ catch
     /// </summary>
     /// <value><c>true</c> if the file has finished loading; otherwise, <c>false</c>.</value>
     bool IsFinished { get; set; } = false;
+
+    string ErrorMessage { get; set; } = string.Empty;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -136,7 +139,7 @@ catch
         catch (Exception err)
         {
             // If an error occurs, throw an exception to display the "Not Found" page.
-            throw new Exception(err.Message);
+            ErrorMessage = err.Message;
         }
     }
 }
