@@ -1,6 +1,6 @@
-@if (!string.IsNullOrEmpty(Root))
+@if (!string.IsNullOrEmpty(PreviousPage))
 {
-    <PageTitle>@Name - @Root - @GlobalConsts.SITE_NAME</PageTitle>
+    <PageTitle>@Name - @PreviousPage - @GlobalConsts.SITE_NAME</PageTitle>
 }
 else
 {
@@ -50,11 +50,11 @@ else
     public string Image { get; set; } = string.Empty;
 
     /// <summary>
-    /// The name of the root page, which will be displayed in the title element along with the name of the current page.
+    /// The name of the previous page, which will be displayed in the title element along with the name of the current page.
     /// </summary>
-    /// <value>A string representing the name of the root page. The default value is an empty string.</value>
+    /// <value>A string representing the name of the previous page. The default value is an empty string.</value>
     [Parameter]
-    public string? Root { get; set; } = string.Empty;
+    public string? PreviousPage { get; set; } = string.Empty;
 
     /// <summary>
     /// The description of the page that will be displayed in the meta description tag.

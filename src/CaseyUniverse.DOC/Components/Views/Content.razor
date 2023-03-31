@@ -4,7 +4,7 @@
 {
     @if (IsFinished)
     {
-        <DynMeta Image="@ImagePath" Root="@PathTitle" Name="@Title" />
+        <DynMeta Image="@ImagePath" PreviousPage="@PathTitle" Name="@Title" />
         <div align="center">
             <img src="/images/@Path/@Filename" />
         </div>
@@ -49,13 +49,13 @@ catch
                 var oldName = Filename;
 
                 Title = txtInfo.ToTitleCase(oldName
-                .Replace("zc", "Zack")
-                .Replace("_z", " Zack")
-                .Replace("z_", "Zack ")
+                .Replace("zc", "Zack", StringComparison.CurrentCultureIgnoreCase)
+                .Replace("_z", " Zack", StringComparison.CurrentCultureIgnoreCase)
+                .Replace("z_", "Zack ", StringComparison.CurrentCultureIgnoreCase)
                 .Replace('_', ' ')
-                .Replace(".png", string.Empty)
-                .Replace(".jpg", string.Empty)
-                .Replace(".gif", string.Empty)
+                .Replace(".png", string.Empty, StringComparison.CurrentCultureIgnoreCase)
+                .Replace(".jpg", string.Empty, StringComparison.CurrentCultureIgnoreCase)
+                .Replace(".gif", string.Empty, StringComparison.CurrentCultureIgnoreCase)
                 .ToString());
             }
 
