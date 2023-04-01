@@ -103,6 +103,17 @@ a:active {
         max-height: 99%;
     }
 
+.dbgbar {
+    width: 100%;
+    background-color: darkred;
+    color: white;
+    overflow: hidden;
+}
+
+    .dbgbar p {
+        margin: 2px;
+    }
+
 /* Menu Bar */
 /* Add a black background color to the top navigation */
 .topnav {
