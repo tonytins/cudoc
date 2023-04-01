@@ -1,41 +1,46 @@
 ﻿@page "/gallery"
-@using System.Collections.Generic
-@inject HttpClient Http
-    <DynMeta Name="Gallery" />
-    <div align="center">
-        <p><GalleryThumb Source="4th_of_july.png" /> <GalleryThumb Source="a_random_hug.png" /> <GalleryThumb Source="adorable_z_colored.png" /> <GalleryThumb Source="alex.png" /> <GalleryThumb Source="beach_photo.png" /> <GalleryThumb Source="beach_time.png" /> </p>
-        <p><GalleryThumb Source="black_and_white.png" /> <GalleryThumb Source="boxers_of_america.png" /> <GalleryThumb Source="cat_z.png" /> <GalleryThumb Source="Cirria.png" /> <GalleryThumb Source="cookie.png" /> <GalleryThumb Source="crazy_artist.png" /></p>
-        <p><GalleryThumb Source="do_the_bunni.png" /> <GalleryThumb Source="Doom_Flakes.png" /> <GalleryThumb Source="Doom_Flakes_-_Popochi.png" /> <GalleryThumb Source="evil_mouse_XD.png" /> <GalleryThumb Source="evil_mw77.png" /> <GalleryThumb Source="for_sam.png" /></p>
-        <p><GalleryThumb Source="Friaser.png" /> <GalleryThumb Source="fried_brain.png" /> <GalleryThumb Source="gir.png" /> <GalleryThumb Source="her_butt_blew_up.png" /> <GalleryThumb Source="it_itchs.png" /><GalleryThumb Source="it_itchs_-_remix.png" /></p>
-        <p><GalleryThumb Source="killed_sally.png" /> <GalleryThumb Source="kim.png" /> <GalleryThumb Source="link_gets_a_hug.png" /> <GalleryThumb Source="megawolf.jpg" /><GalleryThumb Source="mw77.png" /> <GalleryThumb Source="my_tail.jpg" /></p>
-    </div>
-
-
-    @code {
-        // IEnumerable<Gallery> Submissions { get; set; }
-
-        int CountArt { get; set; } = 0;
-        bool IsReady { get; set; } = false;
-
-        protected override Task OnParametersSetAsync()
+@inject HttpClient http
+<DynMeta Name="Gallery" />
+@if (_isReady)
+{
+    <div class="row">
+        @foreach (var submission in _submissions)
         {
-
-            /* try
-            {
-                var gallery = await Http.GetFromJsonAsync<Gallery>(SiteHelper.LocalCDN("gallery.json"));
-
-                gallery = Submissions.AsParallel();
-
-                foreach (var var in gallery)
-                    CountArt++;
-
-                IsReady = true;
-            }
-            catch
-            {
-            }*/
-
-            return base.OnParametersSetAsync();
+            <div class="column">
+                <GalleryThumb Source="@submission" />
+            </div>
         }
+    </div>
+}
+else
+{
+    <LoadingBar />
+}
+
+@code {
+    List<string> _submissions = new List<string>();
+    bool _isReady = false;
+
+    async Task PopulateGallery()
+    {
+        // Obtain the CSV file containing the image path and ID
+        var db = await http.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+        var records = SiteHelper.DatabaseRecords<Gallery>(db);
+        var files = new List<string>();
+
+        foreach (var record in records)
+        {
+            _submissions.Add(record);
+        }
+
     }
+
+    protected override async Task OnParametersSetAsync()
+    {
+
+
+        // Set the flag to indicate that the component is ready
+        _isReady = true;
+    }
+}
 
