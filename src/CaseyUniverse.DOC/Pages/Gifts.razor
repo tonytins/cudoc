@@ -1,0 +1,38 @@
+﻿@page "/gifts"
+@inject HttpClient http
+<DynMeta Name="Gifts" />
+<p>Although I had a club with quite a few members, if you check the wallpaper page, not everyone who made gifts or fanart of Zack was apart of it. We were all just freinds putting each other's characters in our works just for fun.</p>
+@if (_isReady)
+{
+    <div class="row">
+        @foreach (var gift in _gifts)
+        {
+            <div class="column">
+                <GalleryThumb Source="@gift" />
+            </div>
+        }
+    </div>
+}
+else
+{
+    <LoadingBar />
+}
+
+@code {
+    List<string> _gifts = new List<string>();
+    bool _isReady = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+
+        // Obtain the CSV file containing the image path and ID
+        var db = await http.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+        var images = SiteHelper.ImagesFromPath(db, "gifts");
+
+        _gifts = images;
+
+        // Set the flag to indicate that the component is ready
+        _isReady = true;
+    }
+}
+
