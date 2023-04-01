@@ -51,6 +51,11 @@ footer {
     flex: 1;
 }
 
+.submission img {
+    width: fit-content;
+    box-sizing: border-box;
+}
+
 a:link {
     color: aqua;
     text-decoration: none;

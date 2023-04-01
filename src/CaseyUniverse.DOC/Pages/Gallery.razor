@@ -21,23 +21,19 @@ else
     List<string> _submissions = new List<string>();
     bool _isReady = false;
 
-    async Task PopulateGallery()
-    {
-        // Obtain the CSV file containing the image path and ID
-        var db = await http.GetStreamAsync(GlobalConsts.GALLERY_CSV);
-        var records = SiteHelper.DatabaseRecords<Gallery>(db);
-        var files = new List<string>();
-
-        foreach (var record in records)
-        {
-            _submissions.Add(record);
-        }
-
-    }
-
     protected override async Task OnParametersSetAsync()
     {
 
+        // Obtain the CSV file containing the image path and ID
+        var db = await http.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+        var images = SiteHelper.ImagesFromPath(db, "gallery");
+        var buddy = "be_my_buddy.png";
+
+        // Temporarily remove Be My Buddy, due to size issues
+        if (images.Contains(buddy))
+            images.Remove(buddy);
+
+        _submissions = images;
 
         // Set the flag to indicate that the component is ready
         _isReady = true;
