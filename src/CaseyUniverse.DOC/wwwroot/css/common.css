@@ -54,6 +54,7 @@ footer {
 .submission img {
     width: fit-content;
     box-sizing: border-box;
+    max-width: 99%;
 }
 
 a:link {
@@ -97,6 +98,8 @@ a:active {
 }
 
     .featured img {
+        width: fit-content;
+        box-sizing: border-box;
         max-height: 99%;
     }
 
