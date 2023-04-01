@@ -1,33 +1,54 @@
 @inject HttpClient _client
-@if (!string.IsNullOrEmpty(Align))
+@if (!string.IsNullOrEmpty(Path))
 {
-    <a href="/view/@Id"><img src="/images/@Path/@Source" width="@Width" align="@Align" /></a>
+    <a href="/@Path/@Id"><img src="/images/@PhysicalPath/@Source" width="@Width" /></a>
 }
 else
 {
-    <a href="/view/@Id"><img src="/images/@Path/@Source" width="@Width" /></a>
+    <a href="/view/@Id"><img src="/images/@PhysicalPath/@Source" width="@Width" /></a>
 }
 
 @code {
+    /// <summary>
+    /// The source of the image file.
+    /// </summary>
     [Parameter] public string Source { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The width of the image.
+    /// </summary>
     [Parameter] public int Width { get; set; } = ThumbWidth.SMALL;
+
+    /// <summary>
+    /// The alignment of the image.
+    /// </summary>
     [Parameter] public string Align { get; set; } = string.Empty;
 
-    string Path { get; set; } = string.Empty;
+    /// <summary>
+    /// The path of the image file.
+    /// </summary>
+    [Parameter] public string Path { get; set; } = string.Empty;
+
+    string PhysicalPath { get; set; } = string.Empty;
     string Id { get; set; } = string.Empty;
 
     protected override async Task OnParametersSetAsync()
     {
         try
         {
+            // Obtain the CSV file containing the image path and ID
             var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+
+            // Read the CSV file to obtain the image path and ID
             var csv = GalleryDB.Reader(file, Source);
 
-            Path = csv.Path;
+            // Assign the obtained image path and ID to the corresponding properties
+            PhysicalPath = csv.Path;
             Id = csv.Id.ToString();
         }
         catch (Exception err)
         {
+            // Throw an exception if an error occurs while obtaining the image path and ID
             throw new Exception(err.Message);
         }
     }

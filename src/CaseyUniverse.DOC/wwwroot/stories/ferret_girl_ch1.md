@@ -125,3 +125,5 @@ that they had no other choice. They nodded their heads and said, "We'll
 do it." The shadowed figure smiled and said, "Good. Your journey starts
 now." And with that, they were transported to a distant planet to begin
 their new adventure.
+
+Go to [Chapter 2](stories/9268)

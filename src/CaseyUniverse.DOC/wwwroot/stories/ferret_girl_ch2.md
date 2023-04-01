@@ -62,3 +62,5 @@ Zack was impressed and grabbed her, exclaiming, "Oh mama..." Terry tried to
 calm him down, but Zack was insistent, declaring, "She's MINE!" The rest of
 the group looked on in shock, while Terry simply shrugged and said,
 "Fine."
+
+Return to [Chapter 1](stories/7567)
