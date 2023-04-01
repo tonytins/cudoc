@@ -20,11 +20,35 @@ catch
     <NotFound />
 }
 @code {
-    [Parameter] public string Id { get; set; } = string.Empty;
-    string Filename { get; set; } = string.Empty;
-    string Issue { get; set; } = string.Empty;
-    int Page { get; set; } = 0;
-    bool IsFinished { get; set; } = false;
+    /// <summary>
+    /// The ID of the comic to retrieve.
+    /// </summary>
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The filename of the comic.
+    /// </summary>
+    private string Filename { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The issue of the comic.
+    /// </summary>
+    private string Issue { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The current page number of the comic.
+    /// </summary>
+    private int Page { get; set; } = 0;
+
+    /// <summary>
+    /// A flag indicating whether the comic has finished loading or not.
+    /// </summary>
+    private bool IsFinished { get; set; } = false;
+
+    /// <summary>
+    /// Sets the parameter values and loads the comic data.
+    /// </summary>
     protected override async Task OnParametersSetAsync()
     {
         try
@@ -34,10 +58,11 @@ catch
             var records = SiteHelper.DatabaseRecords<Comic>(file);
             var pages = new Dictionary<int, string>();
 
-
+            // Set the Filename and Issue properties using the CSV data
             Filename = csv.Filename;
             Issue = csv.Issue;
 
+            // Mark the comic as finished loading
             IsFinished = true;
         }
         catch (Exception err)
@@ -45,5 +70,6 @@ catch
             throw new Exception(err.Message);
         }
     }
+
 }
 

@@ -1,9 +1,32 @@
 ﻿@inject HttpClient _client
-<a href="/view/@Id"><img src="/images/thumbnails/animations/tn_@Thumbnail" /></a>
+@if (!string.IsNullOrEmpty(Path))
+{
+    <a href="/@Path/@Id"><img src="/images/thumbnails/animations/tn_@Thumbnail" /></a>
+}
+else
+{
+    <a href="/view/@Id"><img src="/images/thumbnails/animations/tn_@Thumbnail" /></a>
+}
 
 @code {
+    /// <summary>
+    /// The source of the image.
+    /// </summary>
     [Parameter] public string Source { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The filename of the image thumbnail.
+    /// </summary>
     [Parameter] public string Thumbnail { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The path to the directory where the image is located.
+    /// </summary>
+    [Parameter] public string Path { get; set; } = "animations";
+
+    /// <summary>
+    /// The ID of the image to be displayed.
+    /// </summary>
     string Id { get; set; } = string.Empty;
 
     protected override async Task OnParametersSetAsync()

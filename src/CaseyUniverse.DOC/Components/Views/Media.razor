@@ -39,54 +39,46 @@ catch
 @code {
 
     /// <summary>
-    /// Gets or sets the identifier of the image or markdown file to be displayed.
+    /// The unique identifier for the gallery item being displayed.
     /// </summary>
-    /// <value>A string representing the identifier of the file.</value>
     [Parameter] public string Id { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the path of the folder containing the image or markdown file.
+    /// The path of the gallery item being displayed.
     /// </summary>
-    /// <value>A string representing the path of the folder.</value>
     [Parameter] public string Path { get; set; } = "gallery";
 
     /// <summary>
-    /// Gets or sets the filename of the image or markdown file.
+    /// The name of the file being displayed.
     /// </summary>
-    /// <value>A string representing the filename of the file.</value>
     string Filename { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the description of the image or markdown file.
+    /// The description of the gallery item being displayed.
     /// </summary>
-    /// <value>A string representing the description of the file.</value>
     string Description { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the title of the folder containing the image or markdown file.
+    /// The title of the gallery item being displayed.
     /// </summary>
-    /// <value>A string representing the title of the folder.</value>
-    string PathTitle { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the title of the image or markdown file.
-    /// </summary>
-    /// <value>A string representing the title of the file.</value>
     string Title { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the content of the markdown file.
+    /// The markdown content of the gallery item being displayed.
     /// </summary>
-    /// <value>A string representing the markdown content of the file.</value>
     string Markdown { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets a value indicating whether the image or markdown file has finished loading.
+    /// Indicates whether the gallery item has finished loading.
     /// </summary>
-    /// <value><c>true</c> if the file has finished loading; otherwise, <c>false</c>.</value>
     bool IsFinished { get; set; } = false;
 
+    /// <summary>
+    /// The error message that occurred while loading the gallery item.
+    /// </summary>
     string ErrorMessage { get; set; } = string.Empty;
+
+    string PathTitle { get; set; } = string.Empty;
 
     protected override async Task OnParametersSetAsync()
     {

@@ -5,26 +5,46 @@
 
 
 @code {
-    string FeaturedImage { get; set; } = string.Empty;
-    string Id { get; set; } = string.Empty;
+    /// <summary>
+    /// The path to the featured image.
+    /// </summary>
+    public string FeaturedImage { get; set; } = string.Empty;
 
+    /// <summary>
+    /// The ID of the featured item.
+    /// </summary>
+    public string Id { get; set; } = string.Empty;
+
+    /// <summary>
+    /// This method is called when the component's parameters have been set, either when it is
+    /// initially rendered or when the parameters are changed. It retrieves a CSV file from a
+    /// client and removes specific records from it. It then randomly selects an item from the
+    /// remaining records and sets its FeaturedImage and Id properties.
+    /// </summary>
     protected override async Task OnParametersSetAsync()
     {
+        // Retrieve the CSV file from the client.
         var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+
+        // Parse the CSV file into a list of Gallery objects.
         var csv = SiteHelper.DatabaseRecords<Gallery>(file);
 
+        // Remove records that do not meet certain criteria.
         csv.RemoveAll(db => db.Path.Contains("animations")
         || db.Path.Contains("modelsheets")
         || db.Path.Contains("wallpaper")
         || db.Path.Contains("stories")
         || db.Filename.Contains("be_my_buddy.png"));
 
+        // Select a random item from the remaining records.
         var rand = new Random();
         var index = rand.Next(csv.Count);
         var feature = csv[index];
 
+        // Set the FeaturedImage and Id properties based on the selected item.
         FeaturedImage = feature.Filename;
         Id = feature.Id.ToString();
     }
+
 }
 

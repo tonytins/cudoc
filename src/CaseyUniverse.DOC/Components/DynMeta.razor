@@ -34,38 +34,34 @@ else
 @code {
 
     /// <summary>
-    /// The name of the page that will be displayed in the title and heading elements.
+    /// The Name of the current page.
     /// </summary>
-    /// <value>A string representing the name of the page. The default value is an empty string.</value>
     [Parameter]
     public string? Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// A value indicating whether a heading element will be displayed on the page.
+    /// Determines whether or not to display the heading.
     /// </summary>
-    /// <value><c>true</c> if a heading element will be displayed; otherwise, <c>false</c>. The default value is <c>true</c>.</value>
     [Parameter]
     public bool Heading { get; set; } = true;
 
     /// <summary>
-    /// The URL of the image that will be displayed in the Open Graph protocol meta tags.
+    /// The image URL to use for Open Graph meta tags.
     /// </summary>
-    /// <value>A string representing the URL of the image. The default value is an empty string.</value>
     [Parameter]
     public string Image { get; set; } = string.Empty;
 
     /// <summary>
-    /// The name of the previous page, which will be displayed in the title element along with the name of the current page.
+    /// The name of the previous page visited by the user.
     /// </summary>
-    /// <value>A string representing the name of the previous page. The default value is an empty string.</value>
     [Parameter]
     public string? PreviousPage { get; set; } = string.Empty;
 
     /// <summary>
-    /// The description of the page that will be displayed in the meta description tag.
+    /// The description of the current page to use for Open Graph meta tags.
     /// </summary>
-    /// <value>A string representing the description of the page. The default value is an empty string.</value>
     [Parameter]
     public string? Description { get; set; } = string.Empty;
+
 }
 
