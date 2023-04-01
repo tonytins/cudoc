@@ -1,0 +1,25 @@
+name: Build ⚙️
+
+on:
+    push:
+        branches: [main, develop, "feature/**"]
+jobs:
+    build:
+        timeout-minutes: 15
+        continue-on-error: true
+        runs-on: ${{ matrix.platform }}
+        strategy:
+            matrix:
+                platform: ["ubuntu-latest", "windows-latest", "macos-latest"]
+                dotnet: ["7.0.x"]
+
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v1
+              with:
+                  dotnet-version: ${{ matrix.dotnet }}
+            - name: Install dependencies
+              run: dotnet restore src
+            - name: Build
+              run: dotnet build src -c Release --no-restore --nologo

@@ -1,18 +1,54 @@
 ﻿@page "/wallpaper"
+@inject HttpClient http
 <DynMeta Name="Wallpaper" />
-<div align="center">
-    <div class="row">
-        <div class="column"><GalleryThumb Path="wallpaper" Source="feet_wallpaper.png" /></div>
-        <div class="column"><GalleryThumb Path="wallpaper" Source="fbdj_wallpaper.png" /></div>
-        <div class="column"><GalleryThumb Path="wallpaper" Source="mu_wallpaper.png" /></div>
-        <div class="column"><GalleryThumb Path="wallpaper" Source="vector_gen_wallpaper.png" /></div>
-        <div class="column"><GalleryThumb Path="wallpaper" Source="christmas_yet.png" /></div>
-    </div>
+<div>
+    @if (_isReady)
+    {
+        <div class="row" align="center">
+            @foreach (var wallpaper in _wallpaper)
+            {
+                <div class="column">
+                    <GalleryThumb Source="@wallpaper" />
+                </div>
+            }
+        </div>
+        <h3>Club</h3>
+        <div align="center">
+            <div class="row">
+                <div class="column"><GalleryThumb Path="wallpaper" Source="fanart_wallpaper.png" /></div>
+                <div class="column"><GalleryThumb Path="wallpaper" Source="z_artists_fanclub.png" /></div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <LoadingBar />
+    }
 </div>
-<h3>Club</h3>
-<div align="center">
-    <div class="row">
-        <div class="column"><GalleryThumb Path="wallpaper" Source="fanart_wallpaper.png" /></div>
-        <div class="column"><GalleryThumb Path="wallpaper" Source="z_artists_fanclub.png" /></div>
-    </div>
-</div>
+
+@code {
+    List<string> _wallpaper = new List<string>();
+    bool _isReady = false;
+
+    protected override async Task OnParametersSetAsync()
+    {
+
+        // Obtain the CSV file containing the image path and ID
+        var db = await http.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+        var images = SiteHelper.ImagesFromPath(db, "wallpaper");
+        var fanart = "fanart_wallpaper.png";
+        var zartists = "z_artists_fanclub.png";
+
+        // Remove club wallpaper
+        if (images.Contains(fanart))
+            images.Remove(fanart);
+
+        if (images.Contains(zartists))
+            images.Remove(zartists);
+
+        _wallpaper = images;
+
+        // Set the flag to indicate that the component is ready
+        _isReady = true;
+    }
+}

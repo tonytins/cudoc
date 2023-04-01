@@ -1,48 +1,45 @@
 @inject HttpClient _client
 <div class="featured">
-    <a href="/view/@Id"><img src="/images/gallery/@FeaturedImage" /></a>
+    <a href="/@Path/@Id"><img src="/images/@Path/@FeaturedImage" /></a>
 </div>
 
 
 @code {
     /// <summary>
-    /// The path to the featured image.
+    /// Gets or sets the file name of the featured image.
     /// </summary>
-    public string FeaturedImage { get; set; } = string.Empty;
+    string FeaturedImage { get; set; } = string.Empty;
 
     /// <summary>
-    /// The ID of the featured item.
+    /// Gets or sets the ID of the image path.
     /// </summary>
-    public string Id { get; set; } = string.Empty;
+    string Id { get; set; } = string.Empty;
 
     /// <summary>
-    /// This method is called when the component's parameters have been set, either when it is
-    /// initially rendered or when the parameters are changed. It retrieves a CSV file from a
-    /// client and removes specific records from it. It then randomly selects an item from the
-    /// remaining records and sets its FeaturedImage and Id properties.
+    /// Gets or sets the path of the image.
+    /// </summary>
+    string Path { get; set; } = string.Empty;
+
+    /// <summary>
+    /// This method is called whenever the component's parameters are set or updated. It sets the values of the FeaturedImage, Path, and Id properties with random values from a CSV file. The method removes some specific records from the CSV before selecting a random image.
     /// </summary>
     protected override async Task OnParametersSetAsync()
     {
-        // Retrieve the CSV file from the client.
         var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
-
-        // Parse the CSV file into a list of Gallery objects.
         var csv = SiteHelper.DatabaseRecords<Gallery>(file);
 
-        // Remove records that do not meet certain criteria.
+        // Remove invalid paths and filenames from the csv.
         csv.RemoveAll(db => db.Path.Contains("animations")
-        || db.Path.Contains("modelsheets")
-        || db.Path.Contains("wallpaper")
         || db.Path.Contains("stories")
         || db.Filename.Contains("be_my_buddy.png"));
 
-        // Select a random item from the remaining records.
         var rand = new Random();
         var index = rand.Next(csv.Count);
         var feature = csv[index];
 
-        // Set the FeaturedImage and Id properties based on the selected item.
+        // Set the values for the featured image properties.
         FeaturedImage = feature.Filename;
+        Path = feature.Path;
         Id = feature.Id.ToString();
     }
 

@@ -27,7 +27,7 @@ else
     /// <summary>
     /// The path of the image file.
     /// </summary>
-    [Parameter] public string Path { get; set; } = "gallery";
+    [Parameter] public string Path { get; set; } = string.Empty;
 
     string PhysicalPath { get; set; } = string.Empty;
     string Id { get; set; } = string.Empty;
@@ -42,7 +42,11 @@ else
             // Read the CSV file to obtain the image path and ID
             var csv = GalleryDB.Reader(file, Source);
 
+
             // Assign the obtained image path and ID to the corresponding properties
+            if (string.IsNullOrEmpty(Path))
+                Path = csv.Path;
+
             PhysicalPath = csv.Path;
             Id = csv.Id.ToString();
         }

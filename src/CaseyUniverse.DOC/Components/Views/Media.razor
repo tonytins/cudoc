@@ -1,6 +1,7 @@
 @page "/view/{Id}"
 @page "/{Path}/{Id}"
 @inject HttpClient _client
+@using System.Text.RegularExpressions
 @* Displays an image or markdown file based on the file extension and provides a link to the page where the file was found. *@
 @try
 {
@@ -18,7 +19,7 @@
         }
         else
         {
-            <div align="center">
+            <div align="center" class="submission">
                 <img src="/images/@Path/@Filename" />
             </div>
         }
@@ -103,7 +104,7 @@ catch
                 Markdown = mdContent;
             }
 
-            if (!string.IsNullOrEmpty(csv.Description))
+            if (!string.IsNullOrEmpty(csv.Description) || !string.IsNullOrWhiteSpace(Description))
                 Description = csv.Description;
 
             // Determine the page title, which is either the title in the CSV file or the filename with some
@@ -113,16 +114,15 @@ catch
             else
             {
                 var oldName = Filename;
-                Title = txtInfo.ToTitleCase(oldName
-                    .Replace("zc", "Zack", StringComparison.CurrentCultureIgnoreCase)
-                    .Replace("_z", " Zack", StringComparison.CurrentCultureIgnoreCase)
-                    .Replace("z_", "Zack ", StringComparison.CurrentCultureIgnoreCase)
-                    .Replace('_', ' ')
-                    .Replace(".png", string.Empty, StringComparison.CurrentCultureIgnoreCase)
-                    .Replace(".jpg", string.Empty, StringComparison.CurrentCultureIgnoreCase)
-                    .Replace(".gif", string.Empty, StringComparison.CurrentCultureIgnoreCase)
-                    .Replace(".md", string.Empty, StringComparison.CurrentCultureIgnoreCase)
-                    .ToString());
+                var zFullname = "Zack";
+
+                oldName = Regex.Replace(oldName, @"\.(png|jpg|gif|md)$", string.Empty, RegexOptions.IgnoreCase);
+                oldName = oldName.Replace("_zc", $" {zFullname}", StringComparison.InvariantCultureIgnoreCase)
+                    .Replace("zc_", $"{zFullname} ", StringComparison.InvariantCultureIgnoreCase)
+                    .Replace("zs", $"Z's", StringComparison.InvariantCultureIgnoreCase)
+                    .Replace("_", " ");
+
+                Title = txtInfo.ToTitleCase(oldName);
             }
 
             // Set the flag indicating that the page is finished loading.
