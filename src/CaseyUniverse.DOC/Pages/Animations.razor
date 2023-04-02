@@ -1,19 +1,31 @@
 ﻿@page "/animations"
+@inject HttpClient http
+@using CaseyUniverse.DOC.Models
 <DynMeta Name="Animations" />
-<div class="row">
-    <div class="column">
-        <p align="center">
-            <VidThumb Source="a_dog.gif" Thumbnail="if_i_were_a_dog_poster.png" />
-        </p>
+@if (_animations == null)
+{
+    <LoadingBar />
+}
+else
+{
+    <div class="row">
+        @foreach (var animation in _animations)
+        {
+            <div class="column">
+                <VidThumb Source="@animation.Filename" Thumbnail="@animation.Thumbnail" />
+            </div>
+        }
     </div>
-    <div class="column">
-        <p align="center">
-            <VidThumb Source="attack_of_the_video_games.gif" Thumbnail="attack_video_games_poster.png" />
-        </p>
-    </div>
-    <div class="column">
-        <p align="center">
-            <VidThumb Source="not_a_puppy.gif" Thumbnail="not_a_puppy_poster.png" />
-        </p>
-    </div>
-</div>
+}
+
+@code {
+    List<Videos> _animations = new List<Videos>();
+
+    protected override async Task OnParametersSetAsync()
+    {
+
+        // Obtain the CSV file containing the image path and ID
+        var db = await http.GetStreamAsync(GlobalConsts.ANIMATIONS_CSV);
+        var images = SiteHelper.ImagesFromPath(db, "animations");
+    }
+}
