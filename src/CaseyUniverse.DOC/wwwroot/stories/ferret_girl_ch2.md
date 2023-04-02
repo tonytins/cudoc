@@ -1,3 +1,7 @@
+---
+authors: Tony Bark, ChatGPT.
+---
+
 Fireball destroys the sun and Terry, Zack, and Ferret's unnamed sister are
 shot into space. Terry says, "I'm not even going to ask why we got shot
 into space." Zack asks, "I've got a bigger question, why are we able to

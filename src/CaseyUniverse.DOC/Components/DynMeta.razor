@@ -14,20 +14,15 @@ else
         <meta content="@Image" property="og:image" data-rh="true">
     }
     <meta name="title" content="@Name - @GlobalConsts.SITE_NAME" property="og:title" data-rh="true">
-    @if (!string.IsNullOrEmpty(Description))
-    {
-        <meta description="@Description" name="description" data-rh="true">
-        <meta name="description" content="@Description" property="og:description" data-rh="true">
-    }
 </HeadContent>
 <div>
     @if (Heading)
     {
         <h2>@Name</h2>
     }
-    @if (!string.IsNullOrEmpty(Description))
+    @if (!string.IsNullOrEmpty(Authors))
     {
-        <p>@Description</p>
+        <sup>By @Authors</sup>
     }
 </div>
 
@@ -45,6 +40,9 @@ else
     [Parameter]
     public bool Heading { get; set; } = true;
 
+    [Parameter]
+    public string Authors { get; set; } = string.Empty;
+
     /// <summary>
     /// The image URL to use for Open Graph meta tags.
     /// </summary>
@@ -56,12 +54,6 @@ else
     /// </summary>
     [Parameter]
     public string? PreviousPage { get; set; } = string.Empty;
-
-    /// <summary>
-    /// The description of the current page to use for Open Graph meta tags.
-    /// </summary>
-    [Parameter]
-    public string? Description { get; set; } = string.Empty;
 
 }
 

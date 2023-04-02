@@ -1,5 +1,6 @@
 using Markdig;
 using Microsoft.AspNetCore.Components;
+
 namespace CaseyUniverse.DOC;
 
 /// <summary>
@@ -40,30 +41,6 @@ public static class SiteHelper
         using var reader = new StreamReader(csv);
         using var file = new CsvReader(reader, CultureInfo.InvariantCulture);
         return file.GetRecords<IDatabase>().ToList();
-    }
-
-    /// <summary>
-    /// Converts a Markdown-formatted string to an HTML-formatted string.
-    /// </summary>
-    /// <param name="content">The Markdown-formatted string to convert.</param>
-    /// <returns>An HTML-formatted string.</returns>
-    public static MarkupString MarkdownToHtml(this string content)
-    {
-        switch (string.IsNullOrEmpty(content))
-        {
-            case true:
-                return (MarkupString)string.Empty;
-            case false:
-                {
-                    var pipeline = new MarkdownPipelineBuilder()
-                        .UseSmartyPants()
-                        .UseYamlFrontMatter()
-                        .DisableHtml()
-                        .Build();
-
-                    return (MarkupString)Markdown.ToHtml(content, pipeline);
-                }
-        }
     }
 
 }

@@ -8,6 +8,7 @@ A way more advanced version of the original [DOC](https://github.com/tonytins/fb
 
 - [x] Migrate away from table layout
 - [ ] Write comic architecture
+- [ ] Move attribution and copyright architecture to its own component
 - [ ] Target .NET 8
 - [ ] Turn into template for future projects
 

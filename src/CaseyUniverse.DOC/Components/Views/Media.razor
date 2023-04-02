@@ -13,10 +13,9 @@
     }
     else
     {
-        <DynMeta Description="@Description" PreviousPage="@PathTitle" Name="@Title" />
-        @if (!string.IsNullOrEmpty(Markdown)
-&& Filename.Contains("md", StringComparison.CurrentCultureIgnoreCase))
+        @if (Path.Contains("stories"))
         {
+            <DynMeta Authors="@Authors" PreviousPage="@PathTitle" Name="@Title" />
             <div class="story">
                 <p>
                     @Markdown.MarkdownToHtml()
@@ -25,6 +24,7 @@
         }
         else
         {
+            <DynMeta PreviousPage="@PathTitle" Name="@Title" />
             <div align="center" class="submission">
                 <img src="/images/@Path/@Filename" />
                 @if (!string.IsNullOrEmpty(Copyright))
@@ -61,11 +61,6 @@ catch
     string Filename { get; set; } = string.Empty;
 
     /// <summary>
-    /// The description of the gallery item being displayed.
-    /// </summary>
-    string Description { get; set; } = string.Empty;
-
-    /// <summary>
     /// The title of the gallery item being displayed.
     /// </summary>
     string Title { get; set; } = string.Empty;
@@ -79,6 +74,8 @@ catch
     /// Indicates whether the gallery item has finished loading.
     /// </summary>
     bool IsReady { get; set; } = false;
+
+    string Authors { get; set; } = string.Empty;
 
     string Copyright { get; set; } = string.Empty;
 
@@ -111,14 +108,14 @@ catch
 
             // Set the filename and load the markdown content if it exists.
             Filename = csv.Filename;
-            if (Filename.Contains("md", StringComparison.CurrentCultureIgnoreCase))
+            if (Path.Contains("stories"))
             {
                 var mdfile = _client.GetStringAsync($"{csv.Path}/{csv.Filename}");
                 var mdContent = await mdfile;
+                var metadata = mdContent.GetFrontMatter<Story>();
                 Markdown = mdContent;
+                Authors = !string.IsNullOrEmpty(metadata.Authors) ? metadata.Authors : Authors;
             }
-
-            Description = !string.IsNullOrWhiteSpace(csv.Description) ? csv.Description : Description;
 
             // Determine the page title, which is either the title in the CSV file or the filename with some
             // transformations applied to make it more readable.
@@ -153,10 +150,16 @@ catch
                     switch (true)
                     {
                         case true when Title.Contains("By"):
-                            copyright = Title.Split("By").Last();
-                            break;
+                            {
+                                copyright = Title.Split("By").Last();
+                                Title = Title.Split("By").First();
+                                break;
+                            }
                         case true when Title.Contains("by"):
-                            copyright = Title.Split("by").Last();
+                            {
+                                copyright = Title.Split("by").Last();
+                                Title = Title.Split("by").First();
+                            }
                             break;
                     }
 

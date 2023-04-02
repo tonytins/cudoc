@@ -1,3 +1,7 @@
+---
+authors: Travisuped, ChatGPT.
+---
+
 "Very cute," Z said, drooling.
 
 Terry smiled. "Good!" he replied, grabbing her hand and running away.
