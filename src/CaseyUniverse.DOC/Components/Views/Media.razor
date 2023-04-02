@@ -1,11 +1,12 @@
 @page "/view/{Id}"
 @page "/{Path}/{Id}"
 @inject HttpClient _client
+@using System.Net
 @using System.Text.RegularExpressions
 @* Displays an image or markdown file based on the file extension and provides a link to the page where the file was found. *@
 @try
 {
-    @if (IsFinished)
+    @if (IsReady)
     {
         <DynMeta Description="@Description" PreviousPage="@PathTitle" Name="@Title" />
         @if (!string.IsNullOrEmpty(Markdown)
@@ -21,6 +22,10 @@
         {
             <div align="center" class="submission">
                 <img src="/images/@Path/@Filename" />
+                @if (!string.IsNullOrEmpty(Copyright))
+                {
+                    <div><FontAwesome Icon="copyright" /> @Copyright</div>
+                }
             </div>
         }
         <p align="center">
@@ -42,7 +47,7 @@ catch
     /// <summary>
     /// The unique identifier for the gallery item being displayed.
     /// </summary>
-    [Parameter] public string Id { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string Id { get; set; } = string.Empty;
 
     /// <summary>
     /// The path of the gallery item being displayed.
@@ -72,7 +77,9 @@ catch
     /// <summary>
     /// Indicates whether the gallery item has finished loading.
     /// </summary>
-    bool IsFinished { get; set; } = false;
+    bool IsReady { get; set; } = false;
+
+    string Copyright { get; set; } = string.Empty;
 
     /// <summary>
     /// The error message that occurred while loading the gallery item.
@@ -81,6 +88,9 @@ catch
 
     string PathTitle { get; set; } = string.Empty;
 
+    /// <summary>
+    /// This method overrides the OnParametersSetAsync method to set properties for a gallery item. It retrieves a CSV file from the server and retrieves the data for the requested gallery item. If a markdown file exists, it loads the markdown content. Finally, it sets a flag indicating that the page is finished loading.
+    /// </summary>
     protected override async Task OnParametersSetAsync()
     {
         try
@@ -104,31 +114,54 @@ catch
                 Markdown = mdContent;
             }
 
-            if (!string.IsNullOrEmpty(csv.Description) || !string.IsNullOrWhiteSpace(Description))
-                Description = csv.Description;
+            Description = !string.IsNullOrWhiteSpace(csv.Description) ? csv.Description : Description;
 
             // Determine the page title, which is either the title in the CSV file or the filename with some
             // transformations applied to make it more readable.
-            if (!string.IsNullOrEmpty(csv.Title) || !string.IsNullOrWhiteSpace(csv.Title))
-                Title = csv.Title;
-            else
+            switch (!string.IsNullOrWhiteSpace(csv.Title))
             {
-                var oldName = Filename;
-                var zFullname = "Zack";
+                case true:
+                    Title = csv.Title;
+                    break;
+                case false:
+                    var oldName = Filename;
+                    var zFullname = "Zack";
 
-                oldName = Regex.Replace(oldName, @"\.(png|jpg|gif|md)$", string.Empty, RegexOptions.IgnoreCase);
-                oldName = oldName.Replace("_zc", $" {zFullname}", StringComparison.InvariantCultureIgnoreCase)
-                    .Replace("zc_", $"{zFullname} ", StringComparison.InvariantCultureIgnoreCase)
-                    .Replace("zs", $"Z's", StringComparison.InvariantCultureIgnoreCase)
-                    .Replace("_", " ");
+                    oldName = Regex.Replace(oldName, @"\.(png|jpg|gif|md)$", string.Empty, RegexOptions.IgnoreCase);
+                    oldName = oldName.Replace("_zc", $" {zFullname}", StringComparison.InvariantCultureIgnoreCase)
+                        .Replace("zc_", $"{zFullname} ", StringComparison.InvariantCultureIgnoreCase)
+                        .Replace("zs", $"Z's", StringComparison.InvariantCultureIgnoreCase)
+                        .Replace("_", " ");
 
-                Title = txtInfo.ToTitleCase(oldName);
+                    Title = txtInfo.ToTitleCase(oldName);
+                    break;
+            }
+
+            switch (!Path.Contains("gallery"))
+            {
+                case true:
+                    // Determine copyright information for non-gallery items.
+                    var copyright = string.Empty;
+
+                    // Baby bye bye bye!
+                    switch (true)
+                    {
+                        case true when Title.Contains("By"):
+                            copyright = Title.Split("By").Last();
+                            break;
+                        case true when Title.Contains("by"):
+                            copyright = Title.Split("by").Last();
+                            break;
+                    }
+
+                    Copyright = copyright;
+                    break;
             }
 
             // Set the flag indicating that the page is finished loading.
-            IsFinished = true;
+            IsReady = true;
         }
-        catch (Exception err)
+        catch (WebException err)
         {
             // If an error occurs, throw an exception to display the "Not Found" page.
             ErrorMessage = err.Message;

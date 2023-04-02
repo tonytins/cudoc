@@ -1,29 +1,16 @@
-﻿@if (!string.IsNullOrEmpty(Align))
-{
-    <div align="@Align">
-        <img src="/images/@Path/@Source" width="@Width" align="@Align" />
-        @if (!string.IsNullOrEmpty(Caption))
-        {
-            <br />@Caption
-        }
-    </div>
-}
-else
-{
-    <div>
-        <img src="/images/@Path/@Source" width="@Width" />
-        @if (!string.IsNullOrEmpty(Caption))
-        {
-            <br />@Caption
-        }
-    </div>
-}
+﻿<div>
+    <img src="/images/@Path/@Source" width="@Width" />
+    @if (!string.IsNullOrEmpty(Caption))
+    {
+        <br />@Caption
+    }
+</div>
 
 @code {
     /// <summary>
     /// Gets or sets the image source filename.
     /// </summary>
-    [Parameter]
+    [Parameter, EditorRequired]
     public string Source { get; set; } = string.Empty;
 
     /// <summary>
@@ -31,12 +18,6 @@ else
     /// </summary>
     [Parameter]
     public string Path { get; set; } = "gallery";
-
-    /// <summary>
-    /// Gets or sets the alignment of the image within the containing element.
-    /// </summary>
-    [Parameter]
-    public string Align { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the hyperlink target for the image.

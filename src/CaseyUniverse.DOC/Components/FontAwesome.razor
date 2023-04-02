@@ -1,0 +1,21 @@
+@if (Brand)
+{
+    <i class="fa-brands fa-@Icon"></i>
+}
+else
+{
+    @if (Solid)
+    {
+        <i class="fa-solid fa-@Icon"></i>
+    }
+    else
+    {
+        <i class="fa-regular fa-@Icon"></i>
+    }
+}
+
+@code {
+    [Parameter, EditorRequired] public string Icon { get; set; } = string.Empty;
+    [Parameter] public bool Brand { get; set; } = false;
+    [Parameter] public bool Solid { get; set; } = false;
+}

@@ -7,8 +7,26 @@
         </div>
         <div class="column">
             <div>
-                <p align="center"><a href="/about">About</a> - <a href="https://github.com/tonytins/cudoc">View source code</a></p>
+                <p align="center">
+                    <!-- <a href="/about">About</a> - --> <a href="/about/faq">FAQ</a>
+                </p>
             </div>
+        </div>
+        <div class="column">
+            <p>
+                <a href="https://github.com/tonytins/cudoc">
+                    <FontAwesome Icon="github" Brand="true" />
+                </a>
+                <a href="@MASTODON_LINK">
+                    <FontAwesome Icon="mastodon" Brand="true" />
+                </a>
+                <a href="https://www.patreon.com/tonytins">
+                    <FontAwesome Icon="patreon" Brand="true" />
+                </a>
+                <a href="https://www.deviantart.com/tonytins">
+                    <FontAwesome Icon="deviantart" Brand="true" />
+                </a>
+            </p>
         </div>
         <div class="column">
             <p align="center">
@@ -17,6 +35,9 @@
                 </a>
             </p>
         </div>
-
     </div>
 </div>
+
+@code {
+    const string MASTODON_LINK = "https://tonybark.com/@tonytins";
+}

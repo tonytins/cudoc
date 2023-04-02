@@ -12,12 +12,12 @@ else
     /// <summary>
     /// The source of the image.
     /// </summary>
-    [Parameter] public string Source { get; set; } = string.Empty;
+    string Source { get; set; } = string.Empty;
 
     /// <summary>
     /// The filename of the image thumbnail.
     /// </summary>
-    [Parameter] public string Thumbnail { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string Thumbnail { get; set; } = string.Empty;
 
     /// <summary>
     /// The path to the directory where the image is located.
