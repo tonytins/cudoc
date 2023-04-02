@@ -116,6 +116,10 @@ a:active {
 
 /* Menu Bar */
 /* Add a black background color to the top navigation */
+header {
+    width: 1024px;
+}
+
 .topnav {
     width: 100%;
     background-color: #000000;
@@ -150,3 +154,13 @@ a:active {
             background-color: #ffffff;
             color: black;
         }
+
+
+
+html:not([data-scroll='0']) header {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    /* This box-shadow will help sell the floating effect */
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.5);
+}
