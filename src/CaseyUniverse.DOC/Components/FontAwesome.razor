@@ -4,18 +4,18 @@
 }
 else
 {
-    @if (Solid)
+    @if (Regular)
     {
-        <i class="fa-solid fa-@Icon"></i>
+        <i class="fa-regular fa-@Icon"></i>
     }
     else
     {
-        <i class="fa-regular fa-@Icon"></i>
+        <i class="fa fa-@Icon"></i>
     }
 }
 
 @code {
     [Parameter, EditorRequired] public string Icon { get; set; } = string.Empty;
     [Parameter] public bool Brand { get; set; } = false;
-    [Parameter] public bool Solid { get; set; } = false;
+    [Parameter] public bool Regular { get; set; } = false;
 }
