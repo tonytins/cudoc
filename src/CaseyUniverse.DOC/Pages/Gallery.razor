@@ -1,7 +1,11 @@
 ﻿@page "/gallery"
 @inject HttpClient http
 <DynMeta Name="Gallery" />
-@if (_isReady)
+@if (_submissions == null)
+{
+    <LoadingBar />
+}
+else
 {
     <div class="row">
         @foreach (var submission in _submissions)
@@ -12,14 +16,9 @@
         }
     </div>
 }
-else
-{
-    <LoadingBar />
-}
 
 @code {
     List<string> _submissions = new List<string>();
-    bool _isReady = false;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -34,9 +33,6 @@ else
             images.Remove(buddy);
 
         _submissions = images;
-
-        // Set the flag to indicate that the component is ready
-        _isReady = true;
     }
 }
 

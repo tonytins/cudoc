@@ -49,16 +49,21 @@ public static class SiteHelper
     /// <returns>An HTML-formatted string.</returns>
     public static MarkupString MarkdownToHtml(this string content)
     {
-        if (!string.IsNullOrEmpty(content))
+        switch (string.IsNullOrEmpty(content))
         {
-            var pipeline = new MarkdownPipelineBuilder()
-                .DisableHtml()
-                .Build();
+            case true:
+                return (MarkupString)string.Empty;
+            case false:
+                {
+                    var pipeline = new MarkdownPipelineBuilder()
+                        .UseSmartyPants()
+                        .UseYamlFrontMatter()
+                        .DisableHtml()
+                        .Build();
 
-            return (MarkupString)Markdown.ToHtml(content, pipeline);
+                    return (MarkupString)Markdown.ToHtml(content, pipeline);
+                }
         }
-        else
-            return (MarkupString)string.Empty;
     }
 
 }

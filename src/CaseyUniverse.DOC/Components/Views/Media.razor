@@ -6,7 +6,12 @@
 @* Displays an image or markdown file based on the file extension and provides a link to the page where the file was found. *@
 @try
 {
-    @if (IsReady)
+    @if (!IsReady)
+    {
+
+        <LoadingBar />
+    }
+    else
     {
         <DynMeta Description="@Description" PreviousPage="@PathTitle" Name="@Title" />
         @if (!string.IsNullOrEmpty(Markdown)
@@ -31,10 +36,6 @@
         <p align="center">
             Return to <a href="/@Path">@PathTitle</a> page
         </p>
-    }
-    else
-    {
-        <LoadingBar />
     }
 }
 catch
@@ -86,6 +87,9 @@ catch
     /// </summary>
     string ErrorMessage { get; set; } = string.Empty;
 
+    /// <summary>
+    /// The title of the path being displayed.
+    /// </summary>
     string PathTitle { get; set; } = string.Empty;
 
     /// <summary>
@@ -118,12 +122,9 @@ catch
 
             // Determine the page title, which is either the title in the CSV file or the filename with some
             // transformations applied to make it more readable.
-            switch (!string.IsNullOrWhiteSpace(csv.Title))
+            switch (string.IsNullOrWhiteSpace(csv.Title))
             {
                 case true:
-                    Title = csv.Title;
-                    break;
-                case false:
                     var oldName = Filename;
                     var zFullname = "Zack";
 
@@ -135,11 +136,16 @@ catch
 
                     Title = txtInfo.ToTitleCase(oldName);
                     break;
+                case false:
+                    Title = csv.Title;
+                    break;
             }
 
-            switch (!Path.Contains("gallery"))
+            switch (Path.Contains("gallery"))
             {
                 case true:
+                    break;
+                case false:
                     // Determine copyright information for non-gallery items.
                     var copyright = string.Empty;
 
