@@ -2,7 +2,7 @@
 
 namespace CaseyUniverse.DOC.Models;
 
-public record Comic : IDatabase
+public record Comic
 {
     [Name("Id")] public int Id { get; set; } = 0;
     [Name("Issue")] public string Issue { get; set; } = string.Empty;

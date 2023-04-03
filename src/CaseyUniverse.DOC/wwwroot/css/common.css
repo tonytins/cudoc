@@ -14,9 +14,11 @@ body {
 
 .page {
     margin: auto;
-    width: 1024px;
+    width: 90%;
     padding: 10px;
     position: relative;
+    min-width: 800px;
+    max-width: 1024px;
 }
 
 .container {
@@ -117,7 +119,8 @@ a:active {
 /* Menu Bar */
 /* Add a black background color to the top navigation */
 header {
-    width: 1024px;
+    min-width: 800px;
+    max-width: 1024px;
 }
 
 .topnav {
