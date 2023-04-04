@@ -1,0 +1,56 @@
+
+/* Menu Bar */
+/* Add a black background color to the top navigation */
+header {
+    min-width: inherit;
+    max-width: inherit;
+}
+
+.topnav {
+    width: 100%;
+    background-color: #000000;
+    overflow: hidden;
+}
+
+    /* Style the links inside the navigation bar */
+    .topnav span {
+        float: left;
+        text-align: center;
+        padding: 10px 16px;
+    }
+
+    .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 10px 16px;
+        text-decoration: none;
+        /* font-weight: bold; */
+        font-size: 17px;
+    }
+
+        /* Change the color of links on hover */
+        .topnav a:hover {
+            background-color: #BE0004;
+            color: #f2f2f2;
+        }
+
+        /* Add a color to the active/current link */
+        .topnav a.active {
+            background-color: #ffffff;
+            color: black;
+        }
+
+/*
+html:not([data-scroll='0']) header {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    padding-bottom: 2px;
+}
+
+html:not([data-scroll='0']) .topnav {
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.5);
+}
+
+ */
