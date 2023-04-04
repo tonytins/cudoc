@@ -1,4 +1,7 @@
+@page "/v/{Id}"
+@page "/view/{Id}"
 @page "/{Path}/{Id}"
+@page "/v/{Path}/{Id}"
 @inject HttpClient _client
 @using System.Net
 @using System.Text.RegularExpressions
@@ -95,8 +98,14 @@ catch
     {
         try
         {
-            // Get the CSV file from the server and retrieve the data for the requested gallery item.
-            var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+            // Get the CSV file from the server and retrieve the data for the requested item.
+            Stream file;
+            if (Path.Contains("animations") || Path.Contains("videos"))
+                file = await _client.GetStreamAsync(GlobalConsts.ANIMATIONS_CSV);
+            else
+                file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+
+            // var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
             var csv = GalleryDB.Reader(file, int.Parse(Id));
 
             // Convert the path to title case for displaying on the page.
