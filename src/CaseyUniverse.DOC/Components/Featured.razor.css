@@ -1,0 +1,10 @@
+body {
+    padding: 10px;
+    height: 400px;
+}
+
+img {
+    width: fit-content;
+    box-sizing: border-box;
+    max-width: 40%;
+}

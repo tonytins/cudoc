@@ -1,12 +1,5 @@
 @inject HttpClient _client
-@if (!string.IsNullOrEmpty(Path))
-{
-    <a href="/@Path/@Id"><img src="/images/@PhysicalPath/@Source" width="@Width" /></a>
-}
-else
-{
-    <a href="/view/@Id"><img src="/images/@PhysicalPath/@Source" width="@Width" /></a>
-}
+<a href="@MediaPage"><img src="/images/@PhysicalPath/@Source" width="@Width" /></a>
 
 @code {
     /// <summary>
@@ -24,12 +17,15 @@ else
     /// </summary>
     [Parameter] public string Align { get; set; } = string.Empty;
 
+    [Parameter] public string CurrentPage { get; set; } = string.Empty;
+
     /// <summary>
     /// The path of the image file.
     /// </summary>
     [Parameter] public string Path { get; set; } = string.Empty;
 
     string PhysicalPath { get; set; } = string.Empty;
+    string MediaPage { get; set; } = string.Empty;
     string Id { get; set; } = string.Empty;
 
     protected override async Task OnParametersSetAsync()
@@ -49,6 +45,12 @@ else
 
             PhysicalPath = csv.Path;
             Id = csv.Id.ToString();
+
+            if (string.IsNullOrEmpty(CurrentPage))
+                MediaPage = $"/{Path}/{Id}";
+            else
+                MediaPage = $"/{Path}/{Id}?previous={CurrentPage}";
+
         }
         catch (Exception err)
         {

@@ -1,6 +1,6 @@
-@if (!string.IsNullOrEmpty(PreviousPage))
+@if (!string.IsNullOrEmpty(Previous))
 {
-    <PageTitle>@Name - @PreviousPage - @GlobalConsts.SITE_NAME</PageTitle>
+    <PageTitle>@Name - @Previous - @GlobalConsts.SITE_NAME</PageTitle>
 }
 else
 {
@@ -52,8 +52,8 @@ else
     /// <summary>
     /// The name of the previous page visited by the user.
     /// </summary>
-    [Parameter]
-    public string? PreviousPage { get; set; } = string.Empty;
+    [Parameter, SupplyParameterFromQuery]
+    public string Previous { get; set; } = string.Empty;
 
 }
 

@@ -17,7 +17,7 @@
     {
         @if (Path.Contains("stories"))
         {
-            <DynMeta Authors="@Authors" PreviousPage="@PathTitle" Name="@Title" />
+            <DynMeta Authors="@Authors" Previous="@PathTitle" Name="@Title" />
             <div class="story">
                 <p>
                     @Markdown.MarkdownToHtml()
@@ -26,18 +26,34 @@
         }
         else
         {
-            <DynMeta PreviousPage="@PathTitle" Name="@Title" />
+            <DynMeta Previous="@PathTitle" Name="@Title" />
             <div align="center" class="submission">
-                <img src="/images/@Path/@Filename" />
+                <DynImg Source="@ImagePath" />
                 @if (!string.IsNullOrEmpty(Copyright))
                 {
                     <div><FontAwesome Regular="true" Icon="copyright" /> @Copyright</div>
                 }
             </div>
         }
-        <p align="center">
-            Return to <a href="/@Path">@PathTitle</a> page
-        </p>
+
+        @if (string.IsNullOrEmpty(Previous))
+        {
+            <p align="center">
+                <FontAwesome Icon="arrow-left" /> Return to the <a href="/@Path">@PathTitle.ToLowerInvariant()</a> page.
+            </p>
+        }
+        else if (Previous.Contains("home") || Previous.Contains("index"))
+        {
+            <p align="center">
+                <FontAwesome Icon="arrow-left" /> Return to the <a href="/">homepage</a>.
+            </p>
+        }
+        else
+        {
+            <p align="center">
+                <FontAwesome Icon="arrow-left" /> Return to the <a href="/@Previous">previous</a> page.
+            </p>
+        }
     }
 }
 catch
@@ -56,6 +72,8 @@ catch
     /// The path of the gallery item being displayed.
     /// </summary>
     [Parameter] public string Path { get; set; } = "gallery";
+
+    [Parameter, SupplyParameterFromQuery] public string Previous { get; set; } = string.Empty;
 
     /// <summary>
     /// The name of the file being displayed.
@@ -91,6 +109,8 @@ catch
     /// </summary>
     string PathTitle { get; set; } = string.Empty;
 
+    string ImagePath { get; set; } = string.Empty;
+
     /// <summary>
     /// This method overrides the OnParametersSetAsync method to set properties for a gallery item. It retrieves a CSV file from the server and retrieves the data for the requested gallery item. If a markdown file exists, it loads the markdown content. Finally, it sets a flag indicating that the page is finished loading.
     /// </summary>
@@ -113,6 +133,8 @@ catch
             var txtInfo = culture.TextInfo;
             Path = csv.Path;
             PathTitle = txtInfo.ToTitleCase(Path);
+
+            ImagePath = $"{csv.Path}/{csv.Filename}";
 
             // Set the filename and load the markdown content if it exists.
             Filename = csv.Filename;

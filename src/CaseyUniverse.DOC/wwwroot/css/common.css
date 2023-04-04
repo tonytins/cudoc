@@ -17,7 +17,7 @@ body {
     width: 90%;
     padding: 10px;
     position: relative;
-    min-width: 900px;
+    min-width: 850px;
     max-width: 1024px;
 }
 
@@ -93,17 +93,6 @@ a:active {
     width: 80%;
     padding: 10px;
 }
-
-.featured {
-    padding: 10px;
-    height: 400px;
-}
-
-    .featured img {
-        width: fit-content;
-        box-sizing: border-box;
-        max-height: 99%;
-    }
 
 .dbgbar {
     width: 100%;
