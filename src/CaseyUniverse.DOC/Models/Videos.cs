@@ -20,8 +20,13 @@ public record Videos : IDatabase
     [Name("Thumbnail")] public string Thumbnail { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets the title of the gallery.
+    /// </summary>
+    [Name("Title")] public string Title { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the thumbnail of the video.
     /// </summary>
-    public string Path { get; set; } = string.Empty;
+    [Name("Path")] public string Path { get; set; } = string.Empty;
 }
 

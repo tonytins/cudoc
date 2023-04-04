@@ -1,11 +1,11 @@
 ﻿@inject HttpClient _client
 @if (!string.IsNullOrEmpty(Path))
 {
-    <a href="/@Path/@Id"><img src="/images/thumbnails/animations/tn_@Thumbnail" /></a>
+    <a href="/@Path/@Id"><img src="/images/thumbnails/tn_@Thumbnail" /></a>
 }
 else
 {
-    <a href="/view/@Id"><img src="/images/thumbnails/animations/tn_@Thumbnail" /></a>
+    <a href="/view/@Id"><img src="/images/thumbnails/tn_@Thumbnail" /></a>
 }
 
 @code {
@@ -34,8 +34,9 @@ else
         try
         {
             var file = await _client.GetStreamAsync(GlobalConsts.ANIMATIONS_CSV);
-            var csv = GalleryDB.Reader(file, Source);
+            var csv = VideoDB.Reader(file, Source);
 
+            Thumbnail = csv.Thumbnail;
             Id = csv.Id.ToString();
         }
         catch (Exception err)

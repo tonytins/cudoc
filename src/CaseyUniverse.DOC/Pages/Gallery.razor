@@ -26,11 +26,6 @@ else
         // Obtain the CSV file containing the image path and ID
         var db = await http.GetStreamAsync(GlobalConsts.GALLERY_CSV);
         var images = SiteHelper.ImagesFromPath(db, "gallery");
-        var buddy = "be_my_buddy.png";
-
-        // Temporarily remove Be My Buddy, due to size issues
-        if (images.Contains(buddy))
-            images.Remove(buddy);
 
         _submissions = images;
     }

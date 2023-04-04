@@ -1,4 +1,5 @@
 ﻿@page "/animations"
+@page "/videos"
 @inject HttpClient http
 @using CaseyUniverse.DOC.Models
 <DynMeta Name="Animations" />
@@ -12,7 +13,9 @@ else
         @foreach (var animation in _animations)
         {
             <div class="column">
-                <VidThumb Source="@animation.Filename" Thumbnail="@animation.Thumbnail" />
+                <VidThumb Path="@animation.Path"
+                          Source="@animation.Filename"
+                          Thumbnail="@animation.Thumbnail" />
             </div>
         }
     </div>
@@ -26,6 +29,6 @@ else
 
         // Obtain the CSV file containing the image path and ID
         var db = await http.GetStreamAsync(GlobalConsts.ANIMATIONS_CSV);
-        var images = SiteHelper.ImagesFromPath(db, "animations");
+        _animations = VideoDB.Reader(db);
     }
 }
