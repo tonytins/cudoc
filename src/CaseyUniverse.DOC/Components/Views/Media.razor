@@ -29,7 +29,11 @@
             <DynMeta Previous="@PathTitle" Name="@Title" />
             <div align="center" class="submission">
                 <DynImg Source="@ImagePath" />
-                @if (!string.IsNullOrEmpty(Copyright))
+                @if (string.IsNullOrEmpty(Copyright))
+                {
+                    <div><FontAwesome Brand="true" Icon="creative-commons" /> <FontAwesome Brand="true" Icon="creative-commons-zero" /></div>
+                }
+                else
                 {
                     <div><FontAwesome Regular="true" Icon="copyright" /> @Copyright</div>
                 }
@@ -168,32 +172,20 @@ catch
                     break;
             }
 
-            switch (Path.Contains("gallery"))
+            switch (Path.Contains("gifts") || Path.Contains("wallpaper"))
             {
-                case true:
-                    break;
-                case false:
-                    // Determine copyright information for non-gallery items.
-                    var copyright = string.Empty;
-
-                    // Baby bye bye bye!
-                    switch (true)
+                // Baby, bye bye bye!
+                case true when Title.Contains("By", StringComparison.InvariantCultureIgnoreCase):
                     {
-                        case true when Title.Contains("By"):
-                            {
-                                copyright = Title.Split("By").Last();
-                                Title = Title.Split("By").First();
-                                break;
-                            }
-                        case true when Title.Contains("by"):
-                            {
-                                copyright = Title.Split("by").Last();
-                                Title = Title.Split("by").First();
-                            }
-                            break;
+                        Copyright = Regex.Split(Title, "By", RegexOptions.IgnoreCase).Last();
+                        Title = Regex.Split(Title, "By", RegexOptions.IgnoreCase).First();
+                        break;
                     }
-
-                    Copyright = copyright;
+                case true when Title.Contains("©"):
+                    {
+                        Copyright = Title.Split("©").Last();
+                        Title = Title.Split("©").First();
+                    }
                     break;
             }
 
