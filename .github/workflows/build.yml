@@ -23,3 +23,5 @@ jobs:
               run: dotnet restore src
             - name: Build
               run: dotnet build src -c Release --no-restore --nologo
+            - name: Upload coverage reports to Codecov
+              uses: codecov/codecov-action@v3
