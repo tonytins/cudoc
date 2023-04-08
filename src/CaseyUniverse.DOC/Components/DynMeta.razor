@@ -1,10 +1,10 @@
-@if (!string.IsNullOrEmpty(Previous))
+@if (string.IsNullOrEmpty(Previous))
 {
-    <PageTitle>@Name - @Previous - @GlobalConsts.SITE_NAME</PageTitle>
+    <PageTitle>@Name - @GlobalConsts.SITE_NAME</PageTitle>
 }
 else
 {
-    <PageTitle>@Name - @GlobalConsts.SITE_NAME</PageTitle>
+    <PageTitle>@Name - @Previous - @GlobalConsts.SITE_NAME</PageTitle>
 }
 
 <HeadContent>

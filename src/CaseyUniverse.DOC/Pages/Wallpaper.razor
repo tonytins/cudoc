@@ -2,7 +2,11 @@
 @inject HttpClient http
 <DynMeta Name="Wallpaper" />
 <div>
-    @if (_isReady)
+    @if (_wallpaper is null)
+    {
+        <LoadingBar />
+    }
+    else
     {
         <div class="row" align="center">
             @foreach (var wallpaper in _wallpaper)
@@ -19,10 +23,6 @@
                 <div class="column"><GalleryThumb Path="wallpaper" Source="z_artists_fanclub.png" /></div>
             </div>
         </div>
-    }
-    else
-    {
-        <LoadingBar />
     }
 </div>
 
