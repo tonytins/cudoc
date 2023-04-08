@@ -3,7 +3,7 @@
 @inject HttpClient http
 @using CaseyUniverse.DOC.Models
 <DynMeta Name="Animations" />
-@if (_animations == null)
+@if (_animations is null)
 {
     <LoadingBar />
 }

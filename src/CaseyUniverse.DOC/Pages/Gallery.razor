@@ -1,7 +1,7 @@
 ﻿@page "/gallery"
 @inject HttpClient http
 <DynMeta Name="Gallery" />
-@if (_submissions == null)
+@if (_submissions is null)
 {
     <LoadingBar />
 }

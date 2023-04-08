@@ -2,67 +2,59 @@
 @page "/view/{Id}"
 @page "/{Path}/{Id}"
 @page "/v/{Path}/{Id}"
-@inject HttpClient _client
-@using System.Net
+@inject HttpClient http
 @using System.Text.RegularExpressions
 @* Displays an image or markdown file based on the file extension and provides a link to the page where the file was found. *@
-@try
+@if (!IsReady)
 {
-    @if (!IsReady)
-    {
 
-        <LoadingBar />
+    <LoadingBar />
+}
+else
+{
+    @if (Path.Contains("stories"))
+    {
+        <DynMeta Authors="@Authors" Previous="@PathTitle" Name="@Title" />
+        <div class="story">
+            <p>
+                @Markdown.MarkdownToHtml()
+            </p>
+        </div>
     }
     else
     {
-        @if (Path.Contains("stories"))
-        {
-            <DynMeta Authors="@Authors" Previous="@PathTitle" Name="@Title" />
-            <div class="story">
-                <p>
-                    @Markdown.MarkdownToHtml()
-                </p>
-            </div>
-        }
-        else
-        {
-            <DynMeta Previous="@PathTitle" Name="@Title" />
-            <div align="center" class="submission">
-                <DynImg Source="@ImagePath" />
-                @if (string.IsNullOrEmpty(Copyright))
-                {
-                    <div><FontAwesome Brand="true" Icon="creative-commons" /> <FontAwesome Brand="true" Icon="creative-commons-zero" /></div>
-                }
-                else
-                {
-                    <div><FontAwesome Regular="true" Icon="copyright" /> @Copyright</div>
-                }
-            </div>
-        }
-
-        @if (string.IsNullOrEmpty(Previous))
-        {
-            <p align="center">
-                <FontAwesome Icon="arrow-left" /> Return to the <a href="/@Path">@PathTitle.ToLowerInvariant()</a> page.
-            </p>
-        }
-        else if (Previous.Contains("home") || Previous.Contains("index"))
-        {
-            <p align="center">
-                <FontAwesome Icon="arrow-left" /> Return to the <a href="/">homepage</a>.
-            </p>
-        }
-        else
-        {
-            <p align="center">
-                <FontAwesome Icon="arrow-left" /> Return to the <a href="/@Previous">previous</a> page.
-            </p>
-        }
+        <DynMeta Previous="@PathTitle" Name="@Title" />
+        <div align="center" class="submission">
+            <DynImg Source="@ImagePath" />
+            @if (string.IsNullOrEmpty(Copyright))
+            {
+                <div><FontAwesome Brand="true" Icon="creative-commons" /> <FontAwesome Brand="true" Icon="creative-commons-zero" /></div>
+            }
+            else
+            {
+                <div><FontAwesome Regular="true" Icon="copyright" /> @Copyright</div>
+            }
+        </div>
     }
-}
-catch
-{
-    <NotFound Message="@ErrorMessage" />
+
+    @if (string.IsNullOrEmpty(Previous))
+    {
+        <p align="center">
+            <FontAwesome Icon="arrow-left" /> Return to the <a href="/@Path">@PathTitle.ToLowerInvariant()</a> page.
+        </p>
+    }
+    else if (Previous.Contains("home") || Previous.Contains("index"))
+    {
+        <p align="center">
+            <FontAwesome Icon="arrow-left" /> Return to the <a href="/">homepage</a>.
+        </p>
+    }
+    else
+    {
+        <p align="center">
+            <FontAwesome Icon="arrow-left" /> Return to the <a href="/@Previous">previous</a> page.
+        </p>
+    }
 }
 
 @code {
@@ -120,83 +112,99 @@ catch
     /// </summary>
     protected override async Task OnParametersSetAsync()
     {
-        try
+        // Get the CSV file from the server and retrieve the data for the requested item.
+        Stream file;
+
+        if (Path.Contains("animations") || Path.Contains("videos"))
+            file = await http.GetStreamAsync(GlobalConsts.ANIMATIONS_CSV);
+        else
+            file = await http.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+
+        // var file = await http.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+        var csv = GalleryDB.Reader(file, int.Parse(Id));
+
+        // Convert the path to title case for displaying on the page.
+        var culture = new CultureInfo("en-US", false);
+        var txtInfo = culture.TextInfo;
+
+        Path = csv.Path;
+        PathTitle = txtInfo.ToTitleCase(Path);
+
+        var ipfsAddr = $"{GlobalConsts.IPFS_CDN}/{csv.Path}/{csv.Filename}";
+        var reply = await http.GetAsync(ipfsAddr);
+
+        // Set the filename and load the markdown content if it exists.
+        Filename = csv.Filename;
+        if (Path.Contains("stories"))
         {
-            // Get the CSV file from the server and retrieve the data for the requested item.
-            Stream file;
-            if (Path.Contains("animations") || Path.Contains("videos"))
-                file = await _client.GetStreamAsync(GlobalConsts.ANIMATIONS_CSV);
-            else
-                file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
+            reply = await http.GetAsync(ipfsAddr);
+            var mdContent = string.Empty;
 
-            // var file = await _client.GetStreamAsync(GlobalConsts.GALLERY_CSV);
-            var csv = GalleryDB.Reader(file, int.Parse(Id));
-
-            // Convert the path to title case for displaying on the page.
-            var culture = new CultureInfo("en-US", false);
-            var txtInfo = culture.TextInfo;
-            Path = csv.Path;
-            PathTitle = txtInfo.ToTitleCase(Path);
-
-            ImagePath = $"{csv.Path}/{csv.Filename}";
-
-            // Set the filename and load the markdown content if it exists.
-            Filename = csv.Filename;
-            if (Path.Contains("stories"))
-            {
-                var mdfile = _client.GetStringAsync($"{csv.Path}/{csv.Filename}");
-                var mdContent = await mdfile;
-                var metadata = mdContent.GetFrontMatter<Story>();
-                Markdown = mdContent;
-                Authors = !string.IsNullOrEmpty(metadata.Authors) ? metadata.Authors : Authors;
-            }
-
-            // Determine the page title, which is either the title in the CSV file or the filename with some
-            // transformations applied to make it more readable.
-            switch (string.IsNullOrWhiteSpace(csv.Title))
+            switch (reply.IsSuccessStatusCode)
             {
                 case true:
-                    var oldName = Filename;
-                    var zFullname = "Zack";
-
-                    oldName = Regex.Replace(oldName, @"\.(png|jpg|gif|md)$", string.Empty, RegexOptions.IgnoreCase);
-                    oldName = oldName.Replace("_zc", $" {zFullname}", StringComparison.InvariantCultureIgnoreCase)
-                        .Replace("zc_", $"{zFullname} ", StringComparison.InvariantCultureIgnoreCase)
-                        .Replace("zs", $"Z's", StringComparison.InvariantCultureIgnoreCase)
-                        .Replace("_", " ");
-
-                    Title = txtInfo.ToTitleCase(oldName);
+                    mdContent = await http.GetStringAsync(ipfsAddr);
                     break;
                 case false:
-                    Title = csv.Title;
+                    mdContent = await http.GetStringAsync($"{csv.Path}/{csv.Filename}");
                     break;
             }
 
-            switch (Path.Contains("gifts") || Path.Contains("wallpaper"))
-            {
-                // Baby, bye bye bye!
-                case true when Title.Contains("By", StringComparison.InvariantCultureIgnoreCase):
-                    {
-                        Copyright = Regex.Split(Title, "By", RegexOptions.IgnoreCase).Last();
-                        Title = Regex.Split(Title, "By", RegexOptions.IgnoreCase).First();
-                        break;
-                    }
-                case true when Title.Contains("©"):
-                    {
-                        Copyright = Title.Split("©").Last();
-                        Title = Title.Split("©").First();
-                    }
-                    break;
-            }
-
-            // Set the flag indicating that the page is finished loading.
-            IsReady = true;
+            var metadata = mdContent.GetFrontMatter<Story>();
+            Markdown = mdContent;
+            Authors = !string.IsNullOrEmpty(metadata.Authors) ? metadata.Authors : Authors;
         }
-        catch (WebException err)
+        else
         {
-            // If an error occurs, throw an exception to display the "Not Found" page.
-            ErrorMessage = err.Message;
+            switch (reply.IsSuccessStatusCode)
+            {
+                case true:
+                    ImagePath = ipfsAddr;
+                    break;
+                case false:
+                    ImagePath = $"{csv.Path}/{csv.Filename}";
+                    break;
+            }
         }
+
+
+        // Determine the page title, which is either the title in the CSV file or the filename with some
+        // transformations applied to make it more readable.
+        switch (string.IsNullOrWhiteSpace(csv.Title))
+        {
+            case true:
+                var oldName = Filename;
+                var zFullname = "Zack";
+
+                oldName = Regex.Replace(oldName, @"\.(png|jpg|gif|md)$",
+                    string.Empty, RegexOptions.IgnoreCase);
+                oldName = oldName.Replace("_zc", $" {zFullname}", StringComparison.InvariantCultureIgnoreCase)
+                    .Replace("zc_", $"{zFullname} ", StringComparison.InvariantCultureIgnoreCase)
+                    .Replace("zs", $"Z's", StringComparison.InvariantCultureIgnoreCase)
+                    .Replace("_", " ");
+
+                Title = txtInfo.ToTitleCase(oldName);
+                break;
+            case false:
+                Title = csv.Title;
+                break;
+        }
+
+        switch (Path.Contains("gifts") || Path.Contains("wallpaper"))
+        {
+            // Baby, bye bye bye!
+            case true when Title.Contains("By", StringComparison.InvariantCultureIgnoreCase):
+                Copyright = Regex.Split(Title, "By", RegexOptions.IgnoreCase).Last();
+                Title = Regex.Split(Title, "By", RegexOptions.IgnoreCase).First();
+                break;
+            case true when Title.Contains("©"):
+                Copyright = Title.Split("©").Last();
+                Title = Title.Split("©").First();
+                break;
+        }
+
+        // Set the flag indicating that the page is finished loading.
+        IsReady = true;
     }
 }
 
