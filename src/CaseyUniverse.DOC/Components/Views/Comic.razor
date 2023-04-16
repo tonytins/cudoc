@@ -1,18 +1,37 @@
 @page "/comic/{Id}"
+@page "/comics/{Id}"
 @inject HttpClient _client
 @try
 {
-    @if (IsFinished)
+    @if (!IsFinished)
     {
-        <DynMeta Root="Comics" Name="@Issue" />
-        <div align="center" class="submission">
-            <img src="/images/comics/@Filename" /><br />
-            <a>Next Page</a>
-        </div>
+        <LoadingBar />
     }
     else
     {
-        <LoadingBar />
+        <DynMeta Previous="Comics" Name="@Volume" Heading="false" />
+        <div align="center" class="submission">
+            <img src="/images/comics/@Filename" /><br />
+            <div class="row">
+                <div class="column">
+                    @if (Previous is not 0)
+                    {
+                        <h3><a href="/comic/@Previous"><FontAwesome Icon="circle-arrow-left" /></a> Previous</h3>
+
+
+                    }
+                </div>
+                <div class="column"><h3>@Volume</h3></div>
+                <div class="column">
+                    @if (Next is not 0)
+                    {
+                        <h3>Next <a href="/comic/@Next"> <FontAwesome Icon="circle-arrow-right" /></a></h3>
+
+                    }
+                </div>
+            </div>
+
+        </div>
     }
 }
 catch
@@ -32,14 +51,19 @@ catch
     private string Filename { get; set; } = string.Empty;
 
     /// <summary>
-    /// The issue of the comic.
+    /// The Volume of the comic.
     /// </summary>
-    private string Issue { get; set; } = string.Empty;
+    private string Volume { get; set; } = string.Empty;
 
     /// <summary>
     /// The current page number of the comic.
     /// </summary>
-    private int Page { get; set; } = 0;
+    private int Previous { get; set; } = 0;
+
+    /// <summary>
+    /// The last page number of the comic.
+    /// </summary>
+    private int Next { get; set; } = 0;
 
     /// <summary>
     /// A flag indicating whether the comic has finished loading or not.
@@ -55,12 +79,12 @@ catch
         {
             var file = await _client.GetStreamAsync(GlobalConsts.COMIC_CSV);
             var csv = ComicDB.Reader(file, int.Parse(Id));
-            var records = SiteHelper.DatabaseRecords<Comic>(file);
-            var pages = new Dictionary<int, string>();
 
-            // Set the Filename and Issue properties using the CSV data
+            // Set the Filename and Volume properties using the CSV data
             Filename = csv.Filename;
-            Issue = csv.Issue;
+            Volume = csv.Volume;
+            Previous = csv.Previous;
+            Next = csv.Next;
 
             // Mark the comic as finished loading
             IsFinished = true;
