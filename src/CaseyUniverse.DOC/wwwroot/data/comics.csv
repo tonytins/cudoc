@@ -1,8 +1,8 @@
-Id,Filename,Issue,Page
-9378,random_comic_1.png,Furry Blue DJ,1
-8223,can_i_play.png,Furry Blue DJ,2
-9830,not_on_time.png,Furry Blue DJ,3
-4835,random_comic_1.png,Furry Blue DJ,4
-8184,trying_new_cerial.png,Furry Blue DJ,5
-2429,shocking_experence.png,Z’s Shorty Manga,1
-8574,trash_can_cat.png,Z’s Shorty Manga,2
+Id,Filename,Volume,Previous,Next
+9378,random_comic_1.png,Adventures of Z,0,8223
+8223,can_i_play.png,Adventures of Z,9378,9830
+9830,not_on_time.png,Adventures of Z,8223,4835
+4835,random_comic_1.png,Adventures of Z,9830,8184
+8184,trying_new_cerial.png,Adventures of Z,4835,2429
+2429,shocking_experence.png,Z’s Shorty Manga,8184,8574
+8574,trash_can_cat.png,Z’s Shorty Manga,2429,0

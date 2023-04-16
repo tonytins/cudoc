@@ -21,8 +21,9 @@ public class ComicDB
                 {
                     Id = record.Id,
                     Filename = record.Filename,
-                    Page = record.Page,
-                    Issue = record.Issue
+                    Previous = record.Previous,
+                    Next = record.Next,
+                    Volume = record.Volume
                 };
             }
         }
