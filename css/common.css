@@ -1,0 +1,106 @@
+/* @font-face {
+  font-family: "Comic Mono";
+  src: local("ComicMono"),
+    url("../fonts/ttf/ComicMono.ttf") format("typeface")
+} */
+
+
+body {
+    background-image: url(../images/docbg.png);
+    background-color: #003366;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.page {
+    margin: auto;
+    width: 90%;
+    padding: 10px;
+    position: relative;
+    min-width: 850px;
+    max-width: 1024px;
+}
+
+.container {
+    min-height: 100vh;
+    margin-top: 1vh;
+    margin-bottom: 15vh;
+}
+
+    .container img {
+        margin: 5px;
+        object-fit: contain;
+    }
+
+footer {
+    margin-top: 5vh;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+}
+
+.submission img {
+    width: fit-content;
+    box-sizing: border-box;
+    max-width: 99%;
+}
+
+a:link {
+    color: aqua;
+    text-decoration: none;
+}
+
+a:visited {
+    color: aquamarine;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ffff00;
+    text-decoration: none;
+}
+
+a:active {
+    color: #ffff66;
+    text-decoration: none;
+}
+
+.welcome {
+    height: 137px;
+    padding: 5px;
+}
+
+.logo {
+    margin: 5px;
+}
+
+.story {
+    margin: auto;
+    width: 80%;
+    padding: 10px;
+}
+
+.dbgbar {
+    width: 100%;
+    background-color: darkred;
+    color: white;
+    overflow: hidden;
+}
+
+    .dbgbar p {
+        margin: 2px;
+    }

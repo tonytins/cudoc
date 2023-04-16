@@ -1,0 +1,109 @@
+/* /Components/AudioPlayer.razor.rz.scp.css */
+audio[b-d4gp5gobhd] {
+    max-width: 90%;
+}
+/* /Components/Document.razor.rz.scp.css */
+.doc_container[b-dy6g52zoxz] {
+    width: 200px;
+}
+
+    .doc_container a[b-dy6g52zoxz] {
+        color: #ceffff;
+        text-decoration: none;
+    }
+
+.doc_folder[b-dy6g52zoxz] {
+    background-image: url("../images/doc_folder.png");
+    height: 145px;
+}
+
+.doc_row[b-dy6g52zoxz] {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: auto;
+}
+
+.doc_column[b-dy6g52zoxz] {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100%;
+    flex: 1;
+}
+/* /Components/DynImg.razor.rz.scp.css */
+img[b-1kahan997x] {
+    max-width: 90%;
+}
+/* /Components/Featured.razor.rz.scp.css */
+body[b-1fj1ilq0n6] {
+    padding: 10px;
+    height: 400px;
+}
+
+img[b-1fj1ilq0n6] {
+    width: fit-content;
+    box-sizing: border-box;
+    max-width: 40%;
+}
+/* /Components/MenuBar.razor.rz.scp.css */
+
+/* Menu Bar */
+/* Add a black background color to the top navigation */
+header[b-o3grs9n723] {
+    min-width: inherit;
+    max-width: inherit;
+}
+
+.topnav[b-o3grs9n723] {
+    width: 100%;
+    background-color: #000000;
+    overflow: hidden;
+}
+
+    /* Style the links inside the navigation bar */
+    .topnav span[b-o3grs9n723] {
+        float: left;
+        text-align: center;
+        padding: 10px 16px;
+    }
+
+    .topnav a[b-o3grs9n723] {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 10px 16px;
+        text-decoration: none;
+        /* font-weight: bold; */
+        font-size: 17px;
+    }
+
+        /* Change the color of links on hover */
+        .topnav a:hover[b-o3grs9n723] {
+            background-color: #BE0004;
+            color: #f2f2f2;
+        }
+
+        /* Add a color to the active/current link */
+        .topnav a.active[b-o3grs9n723] {
+            background-color: #ffffff;
+            color: black;
+        }
+
+/*
+html:not([data-scroll='0']) header {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    padding-bottom: 2px;
+}
+
+html:not([data-scroll='0']) .topnav {
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.5);
+}
+
+ */
+/* /Pages/Index.razor.rz.scp.css */
+.welcome[b-k6b2me6s01] {
+    margin-left: 10px;
+    margin-right: 10px;
+}
