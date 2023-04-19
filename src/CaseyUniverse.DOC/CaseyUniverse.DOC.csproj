@@ -17,6 +17,6 @@
 		<PackageReference Include="Markdig" Version="0.31.0" />
 		<PackageReference Include="HtmlSanitizer" Version="8.0.645" />
 		<PackageReference Include="CsvHelper" Version="30.0.1" />
-		<PackageReference Include="YamlDotNet" Version="13.0.2" />
+		<PackageReference Include="YamlDotNet" Version="13.1.0" />
 	</ItemGroup>
 </Project>

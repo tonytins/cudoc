@@ -8,7 +8,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddScoped<HtmlSanitizer, HtmlSanitizer>(x =>
+builder.Services.AddScoped(x =>
 {
     var sanantize = new HtmlSanitizer();
     return sanantize;

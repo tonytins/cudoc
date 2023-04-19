@@ -18,11 +18,23 @@ else
 <div>
     @if (Heading)
     {
-        <h1>@Name</h1>
-    }
-    @if (!string.IsNullOrEmpty(Authors))
-    {
-        <sup>By @Authors</sup>
+        @if (string.IsNullOrEmpty(Previous))
+        {
+            <h1>@Name</h1>
+        }
+        else
+        {
+            <div class="row">
+                <div class="column"><h2>@Previous</h2></div>
+                <div class="column">
+                    <h2>@Name</h2>
+                    @if (!string.IsNullOrEmpty(Authors))
+                    {
+                        <sup>By @Authors</sup>
+                    }
+                </div>
+            </div>
+        }
     }
 </div>
 

@@ -50,7 +50,7 @@ public static class MarkdownParser
     /// <typeparam name="T">The type of the front matter.</typeparam>
     /// <param name="markdown">The markdown string to parse the front matter from.</param>
     /// <returns>The front matter object of type T.</returns>
-    public static T GetFrontMatter<T>(this string markdown)
+    public static T? GetFrontMatter<T>(this string markdown)
     {
         // Parse the markdown document
         var document = Markdown.Parse(markdown, Pipeline);
@@ -60,8 +60,9 @@ public static class MarkdownParser
             .Descendants<YamlFrontMatterBlock>()
             .FirstOrDefault();
 
+
         // Return null if the front matter is not present
-        if (block == null)
+        if (block is null)
             return default;
 
         // Extract the YAML front matter as a string
